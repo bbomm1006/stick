@@ -1,0 +1,104 @@
+.header {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    color: #000;
+    pointer-events: none;
+
+    .header-inner{
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding: 5rem 8rem;
+        background: linear-gradient(180deg,rgba(0,0,0,.3),transparent);
+        justify-content: space-between;
+
+    }
+
+    .navbar-logo {
+        position: relative;
+        width: 17rem;
+        height: 5.3rem;
+        pointer-events: all;
+        @media screen and (max-width: 1366px) {
+            width:12.8rem;
+            height: 4rem
+        }
+
+        @media screen and (max-width: 700px) {
+            height:45px;
+            width: 73px
+        }
+    }
+
+
+    .navbar-util {
+        display: flex;
+        gap: 1.2rem;
+        pointer-events: all;
+
+        .qa-btn {
+            width: -moz-fit-content;
+            width: fit-content;
+            height: 5.2rem;
+            background: #fafafa;
+            border-radius: 99px;
+            color: #0f3bae;
+            transition: background .3s cubic-bezier(.66,.1,.37,.94);
+            @media screen and (max-width: 1366px) {
+                height:4rem
+            }
+            @media screen and (max-width: 1024px) {
+                display:none;
+                height: 6.2rem
+            }
+            @media screen and (max-width: 1366px) {
+                width:1.8rem;
+                height: 1.8rem
+            }
+
+            .qa-btn__text {
+                padding: 1.4rem 1.4rem 1.4rem 1.8rem;
+                display: flex;
+                align-items: center;
+                gap: .4rem;
+                font-size: 1.6rem;
+                font-weight: 700
+            }
+        }
+
+        .offcanvas-open {
+            background: #0f3bae;
+            color: #fff;
+
+            @media screen and (max-width: 1366px) {
+                width:4rem;
+                height: 4rem;
+                svg {
+                    width:1.8rem;
+                    height: 1.8rem
+                }
+            }
+
+            @media screen and (max-width: 1024px) {
+                width:6.2rem;
+                height: 6.2rem;
+                svg {
+                    width:3rem;
+                    height: 3rem
+                }
+            }
+
+            @media screen and (max-width: 700px) {
+                width:3.8rem;
+                height: 3.8rem;
+                svg {
+                    width:1.9rem;
+                    height: 1.9rem
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,228 @@
+/* src/styles/_reset.scss */
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+body {
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  line-height: 1.4;
+  color: #333;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0
+}
+
+body,html {
+    max-width: 100vw
+}
+
+ol,ul {
+    list-style: none
+}
+
+blockquote,q {
+    quotes: none
+}
+
+blockquote:after,blockquote:before,q:after,q:before {
+    content: "";
+    content: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    background: transparent;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none
+}
+
+a,button {
+    color: inherit
+}
+
+a {
+    text-decoration: none
+}
+
+input,textarea {
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    background-color: transparent
+}
+
+:root {
+    font-size: 10px
+}
+
+body {
+    background-color: #fff;
+    font-size: 1.5rem
+}
+
+body.no-scroll {
+    position: fixed;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: scroll;
+    width: 100%
+}
+
+@media screen and (max-width: 1024px) {
+    body.no-scroll {
+        -ms-overflow-style:none;
+        scrollbar-width: none
+    }
+
+    body.no-scroll::-webkit-scrollbar {
+        display: none
+    }
+}
+
+body::-webkit-scrollbar {
+    width: 10px
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #727272;
+    border-radius: 10px
+}
+
+body::-webkit-scrollbar-track {
+    background: hsla(0,0%,78%,.1)
+}
+
+html.lenis {
+    height: auto;
+    overflow: auto!important
+}
+
+html.lenis .offcanvas .category--mobile {
+    display: none
+}
+
+html.lenis .offcanvas .category--desktop,html.lenis.is-touch-device .offcanvas .category--mobile {
+    display: block
+}
+
+html.lenis.is-touch-device .offcanvas .category--desktop {
+    display: none
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto!important
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden!important;
+    padding-right: 10px!important
+}
+
+@media screen and (max-width: 1024px) {
+    .lenis.lenis-stopped {
+        padding-right:0!important
+    }
+}
+
+.lenis.lenis-stopped .floating-button-container {
+    margin-right: 10px
+}
+
+.lenis.lenis-stopped.is-touch-device .floating-button-container {
+    margin-right: 0
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none
+}
+
+.transition {
+    opacity: 0;
+    animation: fadeIn .6s ease-in-out forwards
+}
+
+.button {
+    white-space: nowrap;
+    padding: 0 24px;
+    border-radius: 100px
+}
+
+.button,.icon-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer
+}
+
+.icon-button {
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 100%
+}
+
+.icon-button a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%
+}
+
+.icon-button svg {
+    width: 2.4rem;
+    height: 2.4rem
+}
