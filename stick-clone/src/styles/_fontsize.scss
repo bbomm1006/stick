@@ -1,0 +1,79 @@
+// _fontsize.scss
+
+.product-h1 {
+    font-size: max(17.5rem,14.7917vw);
+    font-weight: 700;
+    line-height: 140%;
+    letter-spacing: -.02em
+}
+
+.product-h2 {
+    font-size: max(12rem,10.1042vw);
+    font-weight: 700;
+    line-height: 104%;
+    letter-spacing: -.05em
+}
+
+.product-t1 {
+    font-size: max(5rem,4.1667vw);
+    line-height: 110%
+}
+
+.product-t1,.product-t2-b {
+    font-weight: 700;
+    letter-spacing: -.02em
+}
+
+.product-t2-b,.product-t2-sb {
+    font-size: max(3.6rem,3.125vw);
+    line-height: 120%
+}
+
+.product-t2-sb {
+    font-weight: 700;
+    letter-spacing: -.04em
+}
+
+.product-t3 {
+    font-size: max(3rem,2.3958vw);
+    line-height: 110%
+}
+
+.product-t3,.product-t4 {
+    font-weight: 700;
+    letter-spacing: -.02em
+}
+
+.product-t4 {
+    font-size: max(2.2em,1.875vw);
+    line-height: 130%
+}
+
+.product-b1 {
+    font-size: max(1.6rem,1.0417vw);
+    line-height: 150%
+}
+
+.product-b1,.product-b2 {
+    font-weight: 500;
+    letter-spacing: -.03em
+}
+
+.product-b2 {
+    font-size: 1.6rem;
+    line-height: 110%
+}
+
+.product-caption1 {
+    font-size: max(2rem,1.25vw);
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -.032em
+}
+
+.product-caption2 {
+    font-size: max(1.4rem,.8333vw);
+    font-weight: 600;
+    line-height: 120%;
+    letter-spacing: -.02em
+}

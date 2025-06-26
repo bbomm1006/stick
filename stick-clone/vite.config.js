@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 
 export default defineConfig({
+  base: '/stickb/', // ← 여기 꼭 이렇게!
   plugins: [vue()],
   resolve: {
     alias: {
