@@ -89,6 +89,17 @@
                 <img src="/images/stick_04.png" class="stick_04" ref="stick04" />
             </div>
         </div>
+
+        <div class="page_packetView_r">
+            <div class="pinkwrap">
+                <img src="/images/stick_04_in.png" class="pink pink_in" />
+                <img src="/images/stick_04_cover.png" class="pink pink_cover" />
+                <img src="/images/stick_04_top.png" class="pink pink_top" />
+            </div>
+            <div class="grrenwrap">
+                <img src="/images/stick_02.png" class="green" /> 
+            </div>    
+        </div>
     </div>
 </template>
 
@@ -281,8 +292,69 @@ onMounted(() => {
         y: 0,
         ease: 'none'
       }, 0)
+      .fromTo('.page_packetView_r', {
+        opacity: 0,
+      }, {
+        opacity: 1,
+        ease: 'none'
+      }, 0)
       
   })
+
+  // ✅ 4.5단계: 스틱 등장
+  ScrollTrigger.create({
+    trigger: '.page_stickyItem',
+    start: 'bottom+=950px center',
+    end: 'bottom+=1250px center',
+    scrub: true,
+    markers: true,
+    id: '4단계',
+    animation: gsap.timeline()
+      .to('.page_packetView_r .pink_in', {
+        left: "-10%",
+        rotate: -20,
+        y: 40,
+      }, 0)
+      .to('.page_packetView_r .pink_cover', {
+        left: "-10%",
+        rotate: -20,
+      }, 0)
+      .to('.page_packetView_r .pink_top', {
+        rotate: -20,
+        top: "2px",
+        left: "-20%",
+      }, 0)
+      
+  })
+
+  // ✅ 5단계: 스틱 등장
+  ScrollTrigger.create({
+    trigger: '.page_stickyItem',
+    start: 'bottom+=1250px center',
+    end: 'bottom+=1500px center',
+    scrub: true,
+    markers: true,
+    id: '4단계',
+    animation: gsap.timeline()
+      .to('.page_packetView_r .pink_in', {
+        y: 0,
+      }, 0)
+
+      .fromTo('.page_packetView_r .pink_top', {
+        rotate: -20,
+        top: "2px",
+        left: "-20%",
+      }, {
+        rotate: 20,
+        top: "-15%",
+        left: "-15%",
+      }, 0)
+
+
+      
+  })
+
+
 }
 
 

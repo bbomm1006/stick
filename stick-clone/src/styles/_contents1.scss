@@ -135,6 +135,52 @@
     }
 }
 
+.page_packetView_r{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    pointer-events: none;
+    opacity: 0;
+
+    img{
+        width: 8vh;
+    }
+    .grrenwrap,.pinkwrap{
+        position: absolute;
+        top: calc(50% + 90px);
+        right: 0;
+        display: inline-block;
+        width: 38vw;
+        height: 45vh;
+        transform: translateY(-50%);
+    }
+    .pink{
+        position: absolute;        
+        // left: -10%;
+        &_in{
+            transform: translateY(40px);
+            // transform: rotate(-20deg) translateY(40px);
+        }
+        &_cover{
+            // transform: rotate(-20deg);
+        }
+        &_top{
+            top: 2px;
+            // transform: rotate(-20deg);
+            // left: -20%;
+            // transform: rotate(20deg);
+            // top: -15%;
+            // left: -15%;
+        }
+    }
+    .pinkwrap{
+        
+    }
+}
+
 .page_blueBox{
     position: absolute;
     top: 50%;
