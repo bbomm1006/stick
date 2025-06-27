@@ -1,5 +1,9 @@
 @use './variables' as var;
 
+.page_stickyContainer{
+    height: 480vh
+}
+
 .page_stickyItem {
     position: -webkit-sticky;
     position: sticky;
