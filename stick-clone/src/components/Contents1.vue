@@ -81,53 +81,35 @@ onMounted(() => {
         
     })
 
-    // 2단계: blueBox 나타나기 (투명한 상태)
+    // 2단계: 스크롤 중간에 즉시 전환
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=300px center',
       end: 'bottom+=500px center',
       scrub: 1,
       markers: true,
-      id: '2단계',
+      id: '2단계-즉시전환',
       onUpdate: (self) => {
         console.log('2단계 progress:', self.progress)
-      },
-      animation: gsap.to('.page_blueBox', {
-        opacity: 0,
-        ease: 'none'
-      })
-    })
-
-    ScrollTrigger.create({
-      trigger: '.page_stickyItem',
-      start: 'bottom+=300px center',
-      end: 'bottom+=500px center',
-      scrub: 1,
-      markers: true,
-      id: '2단계',
-      onUpdate: (self) => {
-        console.log('2단계 progress:', self.progress)
-      },
-      animation: gsap.to('.page_clipPathContainer', {
-        opacity: 0,
-        ease: 'none'
-      })
-    })
-
-    ScrollTrigger.create({
-      trigger: '.page_stickyItem',
-      start: 'bottom+=300px center',
-      end: 'bottom+=500px center',
-      scrub: 1,
-      markers: true,
-      id: '2단계',
-      onUpdate: (self) => {
-        console.log('2단계 progress:', self.progress)
-      },
-      animation: gsap.to('.page_packetView', {
-        opacity: 0,
-        ease: 'none'
-      })
+        
+        // 스크롤 진행도가 50%를 넘으면 즉시 전환
+        if (self.progress > 0.5) {
+          gsap.set('.page_clipPathContainer', { opacity: 0 })
+          gsap.set('.page_packetView', { opacity: 0 })
+          gsap.set('.page_blueBox', { 
+            opacity: 1,
+            scale: 1,
+            right: '0',
+            width: '50%',
+            height: '100%',
+            borderRadius: '0%'
+          })
+        } else {
+          gsap.set('.page_clipPathContainer', { opacity: 1 })
+          gsap.set('.page_packetView', { opacity: 1 })
+          gsap.set('.page_blueBox', { opacity: 0 })
+        }
+      }
     })
 
     // 3단계: blueBox 최종 형태로 변환
@@ -140,14 +122,8 @@ onMounted(() => {
       id: '3단계',
       onUpdate: (self) => {
         console.log('3단계 progress:', self.progress)
-        // 실시간으로 변화 확인
-        const blueBox = document.querySelector('.page_blueBox')
-        if (blueBox) {
-          console.log('blueBox 현재 opacity:', window.getComputedStyle(blueBox).opacity)
-        }
       },
       animation: gsap.to('.page_blueBox', {
-        opacity: 1,
         scale: 0.65,
         right: '1%',
         width: '50vw',
