@@ -1,4 +1,4 @@
-@use './variables' as *;
+@use './variables' as var;
 
 .nav{
     display: flex;
@@ -49,7 +49,7 @@
             height: 2.4rem
         }
         span{
-            color:$main-color;
+            color:var.$main-color;
         }
         .page_productNavHeader{
             display: flex;

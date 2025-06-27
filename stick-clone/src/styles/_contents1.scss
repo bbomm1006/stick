@@ -1,4 +1,4 @@
-@use './variables' as *;
+@use './variables' as var;
 
 .page_stickyItem {
     position: -webkit-sticky;
@@ -18,7 +18,7 @@
         height: 100%;
         color: #3a3a3a;
         span {
-            color: $main-color
+            color: var.$main-color
         }
         .page_masking {
             display: flex;
@@ -63,7 +63,7 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background: $main-color;
+        background: var.$main-color;
         color: #fff;
         -webkit-clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%);
         clip-path: polygon(0 100%,100% 100%,100% 100%,0 100%);
@@ -163,3 +163,345 @@
 
 }
 
+.page_stickBox{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 53%;
+    left: 52%;
+    z-index: 1;
+    transform: translate(-50%,-50%);
+    width: 35%;
+    height: auto;
+    pointer-events: none;
+
+    @media screen and (max-width: 1024px) {
+        top:73%;
+        left: 46%;
+        transform: translate(-50%,-50%);
+        width: 50vw
+    }
+
+    @media screen and (max-width: 700px) {
+        top:74%;
+        width: clamp(10rem,70vw,30rem)
+    }
+
+    img {
+        opacity: 0;
+        transform: translateY(100px);
+        width: 100%;
+        height: auto;
+
+        @media screen and (max-width: 1024px) {
+            width:100%;
+            height: auto;
+            opacity: 0;
+            transform: translateY(100px)
+        }
+    }
+}
+
+/* 1 */
+.page_productNameContainer{
+    white-space: pre-line;
+    opacity: 0;
+    transform: translateY(100px);
+}
+
+.page_productDescriptions{
+    opacity: 0;
+    transform: translateY(100px);
+    margin-top: 2.4rem;
+    color: #555
+}
+
+.page_introductions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    white-space: pre-line;
+
+    .page_productNameSubtitle {
+        font-size: 5.2rem;
+        color:#222;
+    }
+    .page_productNameTitle{
+        font-size: 6.4rem;
+        color: var.$main-color;
+        line-height: 120%;
+        letter-spacing: -.128rem;
+    }
+
+    
+    .page_typeButtons {
+        display: flex;
+        padding: .4rem;
+        align-items: center;
+        background: #f3f3f3;
+        border-radius: 1.2rem;
+        @media screen and (max-width: 700px) {
+            width:100%;
+            padding: 0
+        }
+    }
+    .page_typeButton{
+        
+        color: rgba(0,0,0,.5);
+        font-size: 1.4rem;
+        line-height: 2.4rem;
+        font-weight: 600;
+        display: flex;
+        padding: 1.1rem 1rem 1.1rem 1.4rem;
+        justify-content: center;
+        align-items: center;
+
+        @media screen and (max-width: 700px) {
+            width:100%;
+            padding: 1rem .8rem 1rem 1.2rem
+        }
+
+        svg {
+            width: 1.6rem;
+            height: 1.6rem
+        }
+
+        &.page_active{
+            background: #00a5e7;
+            border-radius: 1.2rem;
+            color: #fff
+        }
+    }
+
+    .page_tasteButtons{
+        display: flex;
+        gap: .8rem;
+    }
+
+    .page_tasteButton{
+        color: rgba(0,0,0,.5);
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 22px;
+        border: 1px solid rgba(43,43,43,.122);
+        border-radius: 1.2rem;
+        padding: .4rem 1.2rem .4rem .8rem;
+        gap: .2rem;
+        transition: all .3s cubic-bezier(.66,.1,.37,.94);
+
+        svg {
+            width: 2.6rem;
+            height: 3rem
+        }
+
+        &.page_activeApple {
+            color: #00a650;
+            transition: all .3s cubic-bezier(.66,.1,.37,.94);
+            border-color: #00a650;
+        }
+        &.page_activePeach {
+            color: #fc9ec3;
+            transition: all .3s cubic-bezier(.66,.1,.37,.94);
+            border-color: #fc9ec3;
+        }
+
+        @media screen and (max-width: 1366px) {
+            font-size:1.6rem;
+            line-height: 1.6;
+            letter-spacing: -.16px;
+            padding: 0 1.33rem;
+            height: 3.8rem;
+                          
+        }
+
+        @media screen and (max-width: 1024px) {
+            font-size:1.6rem;
+            line-height: 1.23;
+            padding: 0 1.8rem;
+            height: 5.2rem;
+         
+        }
+
+        @media screen and (max-width: 700px) {
+            font-size:1.1rem;
+            font-weight: 600;
+            line-height: 1.2;
+            height: 3.4rem;
+            padding: 0 1.2rem;
+          
+        }
+
+    }    
+
+    .page_buttonGroups {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1.6rem;
+        margin-bottom: 2.5rem;
+        @media screen and (max-width: 700px) {
+            flex-direction:column;
+            align-items: flex-start;
+            gap: .8rem;
+            margin-bottom: 0
+        }        
+    }
+}
+
+.page_hashtags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: 6rem;
+    .tag2{
+        display: inline-flex;
+        color: #222;
+        padding: .38em .63em;
+        border-radius: 100px;
+        border: 1px solid #111;
+        @media screen and (max-width: 1366px) {
+            padding:.4rem .66rem
+        }
+        @media screen and (max-width: 1024px) {
+            line-height:1.4;
+            padding: .9rem 1.5rem
+        }
+        @media screen and (max-width: 700px) {
+            color:#787878;
+            font-size: clamp(1rem,3.5897vw,1.2rem);
+            line-height: 1.4;
+            padding: .6rem 1rem;
+            border: 1px solid rgba(0,0,0,.12)
+        }
+    }
+    @media screen and (max-width: 1366px) {
+        margin-top:min(3rem,4.6875vw)
+    }
+    @media screen and (max-width: 700px) {
+        margin-top:1.2rem
+    }
+}
+
+/* 2 */
+.page_aboutBenefits{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    white-space: pre-line;
+    padding-right:0;
+    @media screen and (max-width: 1024px) {
+        width:100%;
+        height: 68%
+    }
+    @media screen and (max-width: 700px) {
+        justify-content:flex-start;
+        white-space: unset;
+        padding-top: 7.2rem
+    }
+}
+
+.page_benefitsDescriptions{
+    opacity: 0;
+    transform: translateY(100px);
+}
+
+.page_benefits{
+    margin-top: max(5rem,2.4414vw);    
+    opacity: 0;
+    transform: translateY(100px);
+    @media screen and (max-width: 1366px) {
+        margin-top:min(2.1rem,2.4414vw)
+    }
+    @media screen and (max-width: 1024px) {
+        display:flex;
+        grid-column-gap: 4.8rem;
+        margin-top: 4.8rem;
+        width: 100%
+    }
+    @media screen and (max-width: 700px) {
+        display:flex;
+        grid-column-gap: 4.8rem;
+        margin-top: 2rem;
+        width: 100%
+    }
+}
+.page_benefit{
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+    margin-bottom: max(3rem,2.0833vw);
+    @media screen and (max-width: 1366px) {
+        margin-bottom:max(1rem,2.0833vw)
+    }
+    @media screen and (max-width: 1024px) {
+        flex:0 0 60%
+    }
+    @media screen and (max-width: 700px) {
+        flex-direction:column;
+        flex: 0 0 84%;
+        gap: 2.2rem;
+        align-items: flex-start
+    }
+}
+.page_benefitTextTitle{
+    font-size: max(3.6rem,2.7vw);
+    color: #222;
+    span{
+        color:var.$main-color
+    }
+
+    @media screen and (max-width: 1366px) {
+        font-size:clamp(3.4rem,3.5156vw,3.8rem)
+    }
+
+    @media screen and (max-width: 1024px) {
+        font-size:max(3.6rem,4.6875vw)
+    }
+
+    @media screen and (max-width: 700px) {
+        font-size:clamp(2.6rem,7.5487vw,3.3rem)
+    }
+}
+.page_benefitImg{
+    width: 10rem;
+    flex: 0 0 10rem;
+    @media screen and (max-width: 1366px) {
+        flex:0 0 8rem;
+        width: 8rem
+    }
+    @media screen and (max-width: 1024px) {
+        flex:0 0 10rem;
+        width: 10rem
+    }
+    @media screen and (max-width: 700px) {
+        width:8.5rem;
+        flex: 0 0 8.5rem
+    }
+}
+.page_benefitText{
+    .page_benefitTitle{
+        font-size: clamp(1.6rem,1.7578vw,2rem);
+        @media screen and (max-width: 700px) {
+            line-height:150%
+        }
+    }
+    .page_benefitDesc{
+        color: #555;
+        margin-top: .4rem;
+        @media screen and (max-width: 1024px) {
+            width:75%;
+            white-space: normal
+        }
+        @media screen and (max-width: 700px) {
+            width:100%
+        }
+    }
+}

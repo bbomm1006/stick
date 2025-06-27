@@ -1,6 +1,73 @@
 // _spacing.scss
 
+
 .grid-xl {
     padding-left: max(4.8rem,4.1667vw);
     padding-right: max(4.8rem,4.1667vw)
+}
+
+@media screen and (max-width: 1024px) {
+    .grid-xl {
+        padding-left:max(4rem,4.6875vw);
+        padding-right: max(4rem,4.6875vw)
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .grid-xl {
+        padding-left:5.1282vw;
+        padding-right: 5.1282vw
+    }
+}
+
+.grid-m {
+    padding-left: 8.3333vw;
+    padding-right: 8.3333vw
+}
+
+@media screen and (max-width: 1366px) {
+    .grid-m {
+        padding-left:5vw;
+        padding-right: 5vw
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .grid-m {
+        padding-left:max(4rem,4.6875vw);
+        padding-right: max(4rem,4.6875vw)
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .grid-m {
+        padding-left:5.1282vw;
+        padding-right: 5.1282vw
+    }
+}
+
+.grid-s {
+    padding-left: 22.5vw;
+    padding-right: 22.5vw
+}
+
+@media screen and (max-width: 1366px) {
+    .grid-s {
+        padding-left:10vw;
+        padding-right: 10vw
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .grid-s {
+        padding-left:max(4rem,4.6875vw);
+        padding-right: max(4rem,4.6875vw)
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .grid-s {
+        padding-left:5.1282vw;
+        padding-right: 5.1282vw
+    }
 }

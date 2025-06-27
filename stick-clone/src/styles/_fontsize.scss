@@ -77,3 +77,62 @@
     line-height: 120%;
     letter-spacing: -.02em
 }
+
+
+.b1 {
+    font-size: max(1.9rem,1.0417vw);
+    font-weight: 500;
+    line-height: 140%;
+    letter-spacing: -.06rem
+}
+
+.b2 {
+    font-size: max(1.9rem,1.0417vw)
+}
+
+.b2,.b3 {
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: -.04rem
+}
+
+.b3 {
+    font-size: max(1.8rem,1.0417vw)
+}
+
+.b4,.cms>div:not(.DPromotion),.cms>p {
+    font-size: max(1.4rem,.9375vw);
+    font-weight: 400;
+    line-height: 165%;
+    letter-spacing: -.02rem
+}
+
+.b5 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: -.016rem
+}
+
+
+.tag1 {
+    font-size: max(1.6rem,1.1458vw);
+    line-height: 100%
+}
+
+.badge,.tag1,.tag2 {
+    font-weight: 500;
+    letter-spacing: -.04rem
+}
+
+.badge,.tag2 {
+    font-size: max(1.2rem,.7292vw);
+    line-height: 140%
+}
+
+.tag3 {
+    font-size: max(1.6rem,.8333vw);
+    font-weight: 500;
+    line-height: 135%;
+    letter-spacing: -.04rem
+}
