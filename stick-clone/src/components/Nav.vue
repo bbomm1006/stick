@@ -1,5 +1,6 @@
 <template>
-    <div class="nav grid-xl">
+    <div class="nav grid-xl page_productNav">
+        <div class="page_progressBar" :style="{ width: scrollPercent + '%' }"></div>
         <div class="page_productDropdown">
             <div class="page_productNavHeader">상쾌환<span>스틱</span></div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
@@ -17,7 +18,25 @@
 </template>
 
 <script setup>
-// 스크립트는 없음
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const scrollPercent = ref(0)
+
+const updateScroll = () => {
+  const scrollTop = window.scrollY
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight
+  const percent = (scrollTop / docHeight) * 100
+  scrollPercent.value = Math.min(100, Math.max(0, percent)) // 0 ~ 100 사이로 제한
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', updateScroll)
+  updateScroll()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateScroll)
+})
 </script>
 
 <style lang="scss" scoped>

@@ -40,12 +40,12 @@
         </div>
 
         <div class="grid-m page_ingredientsCtn">
-            <div class="page_ingredientDescriptions" style="translate: none; rotate: none; scale: none; transform: translate(-30%, 0px); opacity: 1;">
+            <div class="page_ingredientDescriptions" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0px); opacity: 1;">
                 <div class="product-t2-b page_ingredientTextTitle">인체적용시험으로 확인된 <br/>과학적 숙취해소 효과​</div>
                 <div class="product-b1 page_ingredientDescription">식품의약품안전처 가이드라인을 준수한 인체적용시험 실시 결과, <br/>유효성분 글루타치온이 숙취원인물질인 혈중 아세트알데히드의 효과적 감소를 도와줍니다. <br/>밀크씨슬추출분말, 아티초크추출분말 등 엄선한 원료를 했습니다.</div>
             </div>
 
-            <div class="page_ingredients" style="translate: none; rotate: none; scale: none; transform: translate(-30%, 0px); opacity: 1;">
+            <div class="page_ingredients" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0px); opacity: 1;">
                 <div>
                     <div class="page_ingredientInner">
                         <div class="page_ingredientImg">

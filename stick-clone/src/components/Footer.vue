@@ -1,5 +1,11 @@
 <template>
-  <footer id="footer" class="grid-xl">
+    <div class="floating-button-container floating-button-container--product">
+        <button class="icon-button top-btn" @click="scrollToTop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.74 12 7m0 0 5 4.74M12 7v10"></path>
+            </svg>
+        </button>
+    </div>
+    <footer id="footer" class="grid-xl">
     <ul class="link-items">
         <li class="link-item"><div>개인정보처리방침</div></li><li class="link-item"><div>이용약관</div></li>
         <li class="link-item"><div>이메일무단수집거부</div></li>
@@ -44,11 +50,20 @@
             </div>
         </div>
     </div>
-  </footer>
+    </footer>
 </template>
 
-<script setup>
-// 스크립트는 없음
+<script>
+export default {
+  methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // 부드럽게 스크롤
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

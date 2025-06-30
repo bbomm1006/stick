@@ -9,7 +9,43 @@
         </button>
     </div>
     <div class="row grid-m page_specs" data-section="specs">
-        <div class="col"></div>
+        <div class="col page_swiperWrapper">
+            <div class="page_mySwiper">
+                <swiper
+                    :modules="[Navigation, Pagination, Autoplay]"
+                    :pagination="{
+                        clickable: true,
+                        renderBullet: function (index, className) {
+                        return '<span class=\'' + className + ' custom-bullet\'><span class=\'bullet-progress\'></span></span>';
+                        },
+                    }"
+                    :autoplay="{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }"
+                    :speed="800"
+                    class="mySwiper"
+                    @slideChange="onSlideChange"
+                    @swiper="onSwiper"
+                    >
+                    <swiper-slide>
+                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_1.jpg&w=750&q=75"/>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_2.jpg&w=750&q=75"/>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_3.jpg&w=750&q=75"/>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_4.jpg&w=750&q=75"/>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_5.jpg&w=750&q=75"/>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </div>
         <div class="col product-b2 page_spec">
             <div class="row page_specWrapper">
                 <div class="col page_specName">제품명</div>
@@ -48,8 +84,58 @@
 </template>
 
 <script setup>
-// 스크립트는 없음
+import { ref, onMounted } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+
+const swiperRef = ref(null)
+
+const onSwiper = (swiper) => {
+  swiperRef.value = swiper
+  startProgressAnimation(0)
+}
+
+const onSlideChange = (swiper) => {
+  // 모든 진행바 리셋
+  const bullets = document.querySelectorAll('.custom-bullet .bullet-progress')
+  bullets.forEach(bullet => {
+    bullet.style.animation = 'none'
+  })
+  
+  // 현재 활성 슬라이드의 진행바 애니메이션 시작
+  setTimeout(() => {
+    startProgressAnimation(swiper.activeIndex)
+  }, 50)
+}
+
+const startProgressAnimation = (activeIndex) => {
+  const activeBullet = document.querySelector(`.swiper-pagination-bullet:nth-child(${activeIndex + 1}) .bullet-progress`)
+  if (activeBullet) {
+    activeBullet.style.animation = 'progress 3s linear forwards'
+  }
+}
+
+onMounted(() => {
+  // CSS 애니메이션 추가
+  const style = document.createElement('style')
+  style.textContent = `
+    @keyframes progress {
+      0% {
+        transform: scaleX(0);
+      }
+      100% {
+        transform: scaleX(1);
+      }
+    }
+  `
+  document.head.appendChild(style)
+})
 </script>
+
 
 <style lang="scss" scoped>
 @use '@/styles/contents3' as *;

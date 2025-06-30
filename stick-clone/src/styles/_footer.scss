@@ -374,3 +374,251 @@
 #footer.hidden,html[lang=cn] #footer .footer-social {
     display: none
 }
+
+
+/* floating */
+
+.floating-button-container {
+    display: flex;
+    align-items: flex-end;
+    position: fixed;
+    right: 6.8rem;
+    bottom: 4.5em;
+    z-index: 3;
+    transition: .3s cubic-bezier(.66,.1,.37,.94);
+    transition-property: opacity,transform
+}
+
+@media screen and (max-width: 1024px) {
+    .floating-button-container {
+        flex-direction:column;
+        align-items: center;
+        right: 4.8rem;
+        gap: .9rem
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .floating-button-container {
+        gap:.6rem;
+        right: 2rem;
+        bottom: 2.2rem
+    }
+}
+
+.floating-button-container--hide {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(30px);
+    transition: .3s cubic-bezier(.66,.1,.37,.94);
+    transition-property: opacity,transform
+}
+
+.floating-button-container--product {
+    bottom: 13rem
+}
+
+@media screen and (max-width: 700px) {
+    .floating-button-container--product {
+        bottom:9rem
+    }
+}
+
+.floating-button-container--main .top-btn {
+    display: none
+}
+
+.floating-qa-btn {
+    display: none;
+    width: 5.2rem;
+    height: 5.2rem;
+    background: #fafafa;
+    border-radius: 99px;
+    color: #0f3bae;
+    transition: background .3s cubic-bezier(.66,.1,.37,.94)
+}
+
+.floating-qa-btn--hide {
+    display: none
+}
+
+.floating-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    bottom: -4.7rem
+}
+
+@media screen and (max-width: 1366px) {
+    .floating-button {
+        transform:scale(.85);
+        bottom: -6rem
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .floating-button {
+        display:none
+    }
+}
+
+.floating-button .text-balloon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.4rem;
+    height: 6.6rem;
+    color: #fff;
+    padding: 1.6rem 2.4rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    white-space: pre-line;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(30px) scale(.5);
+    background: #fe3bab;
+    border-radius: 100px;
+    will-change: transform
+}
+
+.floating-button .text-balloon .text-balloon-triangle {
+    position: absolute;
+    bottom: -10px
+}
+
+.floating-button .shopping {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    transform: translateY(-22%)
+}
+
+.floating-button .shopping .mall-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16.4rem;
+    height: 5.3rem;
+    background: #fe3bab;
+    border-radius: 100px;
+    cursor: pointer;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(30px);
+    font-size: 1.4rem;
+    font-weight: 700
+}
+
+.floating-button img {
+    width: 19.3rem;
+    height: auto
+}
+
+.floating-button .lottie-icon {
+    display: none
+}
+
+.floating-button .lottie-icon--active {
+    display: block
+}
+
+.shopping-cart-container {
+    position: relative
+}
+
+.shopping-cart-container .shopping {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    gap: .9rem;
+    right: 0;
+    bottom: 0;
+    pointer-events: none
+}
+
+@media screen and (max-width: 1024px) {
+    .shopping-cart-container .shopping {
+        display:flex
+    }
+}
+
+.shopping-cart-container .shopping .mall-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 17.7rem;
+    height: 8.1rem;
+    background: #fe3bab;
+    border-radius: 100px;
+    cursor: pointer;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(30px);
+    font-size: 1.8rem;
+    font-weight: 700;
+    pointer-events: none
+}
+
+@media screen and (max-width: 700px) {
+    .shopping-cart-container .shopping .mall-link {
+        width:10.7rem;
+        height: 4.6rem;
+        font-size: 1.1rem
+    }
+}
+
+.shopping-cart-container .shopping .contact-btn {
+    display: none
+}
+
+@media screen and (max-width: 1024px) {
+    .shopping-cart-container .shopping .contact-btn {
+        display:flex
+    }
+}
+
+.shopping-cart {
+    background: #f0048c;
+    color: #fff;
+    display: none;
+    will-change: transform
+}
+
+@media screen and (max-width: 1024px) {
+    .shopping-cart {
+        display:block;
+        width: 6.5rem;
+        height: 6.5rem
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .shopping-cart {
+        width:5.2rem;
+        height: 5.2rem
+    }
+}
+
+.top-btn {
+    background: #0f3bae;
+    color: #fff;
+    top: 0;
+    right: 0
+}
+
+@media screen and (max-width: 1024px) {
+    .top-btn {
+        width:6.5rem;
+        height: 6.5rem
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .top-btn {
+        width:5.2rem;
+        height: 5.2rem
+    }
+}

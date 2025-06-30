@@ -172,9 +172,63 @@
     padding-top: 6rem;
     padding-bottom: 20rem;
     .page_swiperWrapper {
-        flex: 0 0
+        flex: 0 0;
+                
+        /* 커스텀 페이지네이션 스타일 */
+        :deep(.swiper-pagination) {
+            bottom: 10px !important;
+        }
+
+        :deep(.custom-bullet) {
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 8px !important;
+            
+            opacity: 1 !important;
+            position: relative !important;
+            margin: 0 4px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            background: #d4d6db
+        }
+
+        /* 활성화된 페이지네이션만 진행바 스타일 */
+        :deep(.custom-bullet.swiper-pagination-bullet-active) {
+            width: 60px !important;
+            height: 8px !important;
+            border-radius: 8px !important;        
+        }
+
+        :deep(.bullet-progress) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: hsla(0,0%,7%,.5);
+            border-radius: 8px;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.1s ease;
+            opacity: 0;
+        }
+
+        /* 활성화된 페이지네이션에서만 진행바 표시 */
+        :deep(.custom-bullet.swiper-pagination-bullet-active .bullet-progress) {
+            opacity: 1;
+        }
+
+     
     }
     .page_mySwiper {
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+        list-style: none;
+        padding: 0;
+        z-index: 1;
+        display: block;
         width: 44rem;
         aspect-ratio: 440/500;
         background: #ececec;
