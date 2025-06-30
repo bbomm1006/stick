@@ -1,5 +1,8 @@
 <template>
-    <div class="nav grid-xl page_productNav">
+    <div
+    class="nav grid-xl page_productNav"
+    :style="{ transform: isFooterVisible ? 'translate(0px, 100%)' : 'translate(0px, 0%)' }"
+    >
         <div class="page_progressBar" :style="{ width: scrollPercent + '%' }"></div>
         <div class="page_productDropdown">
             <div class="page_productNavHeader">상쾌환<span>스틱</span></div>
@@ -21,23 +24,41 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const scrollPercent = ref(0)
+const isFooterVisible = ref(false)
 
 const updateScroll = () => {
   const scrollTop = window.scrollY
   const docHeight = document.documentElement.scrollHeight - window.innerHeight
   const percent = (scrollTop / docHeight) * 100
-  scrollPercent.value = Math.min(100, Math.max(0, percent)) // 0 ~ 100 사이로 제한
+  scrollPercent.value = Math.min(100, Math.max(0, percent))
 }
+
+let observer = null
 
 onMounted(() => {
   window.addEventListener('scroll', updateScroll)
   updateScroll()
+
+  const footer = document.querySelector('footer')
+  if (footer) {
+    observer = new IntersectionObserver(
+      ([entry]) => {
+        isFooterVisible.value = entry.isIntersecting
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(footer)
+  }
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', updateScroll)
+  if (observer) observer.disconnect()
 })
 </script>
+
+
+
 
 <style lang="scss" scoped>
 @use '@/styles/nav' as *;
