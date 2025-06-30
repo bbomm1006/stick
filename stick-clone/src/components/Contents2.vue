@@ -13,25 +13,93 @@
                                 <div class="product-t3 page_horizontalTitle">제로칼로리로 <br/>더 가볍게, 새롭게</div>
                                 <div class="product-b1 page_horizontalDescription">#설탕ZERO #칼로리50%DOWN</div>
                             </div>
+
+                            <div class="page_springYellow">
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/spring.png" alt=""/> 
+                                </div>
+                            </div>
+                            
+                            <div class="page_star" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/star.png" alt=""/> 
+                                </div>
+                            </div>
+                            
+                            <div class="page_zero" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/zero.png" alt=""/> 
+                                </div>
+                            </div>
+
+                            <div class="page_cloud" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/cloud.png" alt=""/> 
+                                </div>
+                            </div>
+
                         </div>
                         <div class="page_horizontalItem">
                             <div class="grid-m page_keywords">
-                                <div class="product-h1 page_keyword1" ref="keyword1_1">Natural</div>
-                                <div class="product-h1 page_keyword2" ref="keyword2_1">Fresh</div>
+                                <div class="product-h1 page_keyword1">Squeeze</div>
+                                <div class="product-h1 page_keyword2">& Go</div>
                             </div>
                             <div class="grid-m page_horizontalDescriptions">
                                 <div class="product-t3 page_horizontalTitle">자연의 신선함을 <br/>그대로 담았습니다</div>
                                 <div class="product-b1 page_horizontalDescription">#천연재료 #무첨가</div>
                             </div>
+                            
+                            <div class="page_springYellow">
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/spring.png" alt=""/> 
+                                </div>
+                            </div>
+                            
+                            <div class="page_sunglass" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/sun.png" alt=""/> 
+                                </div>
+                            </div>
+                            
+                            <div class="page_star" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/star.png" alt=""/> 
+                                </div>
+                            </div>
+
+                            <div class="page_handbag" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/bag.png" alt=""/> 
+                                </div>
+                            </div>
+
                         </div>
                         <div class="page_horizontalItem">
                             <div class="grid-m page_keywords">
-                                <div class="product-h1 page_keyword1" ref="keyword1_2">Healthy</div>
-                                <div class="product-h1 page_keyword2" ref="keyword2_2">Life</div>
+                                <div class="product-h1 page_keyword1">Sweet &</div>
+                                <div class="product-h1 page_keyword2">Tasty</div>
                             </div>
                             <div class="grid-m page_horizontalDescriptions">
                                 <div class="product-t3 page_horizontalTitle">건강한 라이프스타일의 <br/>새로운 시작</div>
                                 <div class="product-b1 page_horizontalDescription">#건강음료 #라이프스타일</div>
+                            </div>
+
+                             <div class="page_springBlue">
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/spring2.png" alt=""/> 
+                                </div>
+                            </div>
+
+                            <div class="page_mango" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/mango.png" alt=""/> 
+                                </div>
+                            </div>
+
+                            <div class="page_smile" >
+                                <div class="lf-player-container">
+                                    <img src="/images/aniimg/smile.png" alt=""/> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -104,23 +172,17 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// refs
 const horizontalScroll = ref(null)
 const horizontalSticky = ref(null)
 const horizontalItems = ref(null)
 const keyword1_0 = ref(null)
 const keyword2_0 = ref(null)
-const keyword1_1 = ref(null)
-const keyword2_1 = ref(null)
-const keyword1_2 = ref(null)
-const keyword2_2 = ref(null)
 
 let scrollTriggerInstance = null
 let keywordAnimations = []
 
 onMounted(async () => {
   await nextTick()
-
   gsap.registerPlugin(ScrollTrigger)
 
   if (!horizontalScroll.value || !horizontalSticky.value || !horizontalItems.value) {
@@ -128,15 +190,37 @@ onMounted(async () => {
     return
   }
 
-  // 초기 키워드 위치 설정
-  gsap.set([keyword1_0.value, keyword1_1.value, keyword1_2.value], {
-    x: -30,
-  })
-  gsap.set([keyword2_0.value, keyword2_1.value, keyword2_2.value], {
-    x: 30,
-  })
+  // 초기 위치
+  gsap.set(keyword1_0.value, { xPercent: -30 })
+  gsap.set(keyword2_0.value, { xPercent: 30 })
 
-  // 가로 스크롤 애니메이션
+  // 키워드 등장 (lens 느낌)
+  keywordAnimations.push(
+    gsap.to(keyword1_0.value, {
+      xPercent: 0,
+      ease: "ease",
+      duration: 2,
+      scrollTrigger: {
+        trigger: keyword1_0.value,
+        start: "top 80%", // 👈 화면에 살짝만 보여도 시작
+        end: "top 40%",
+        scrub: true
+      }
+    }),
+    gsap.to(keyword2_0.value, {
+      xPercent: 0,
+      ease: "ease",
+      duration: 2,
+      scrollTrigger: {
+        trigger: keyword2_0.value,
+        start: "top 80%",
+        end: "top 40%",
+        scrub: true
+      }
+    })
+  )
+
+  // 가로 스크롤 타임라인
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: horizontalScroll.value,
@@ -145,30 +229,27 @@ onMounted(async () => {
       start: "top top",
       end: "+=250%",
       anticipatePin: 1,
-      pinSpacing: true,
-      onUpdate: (self) => {
-        console.log('Scroll progress:', self.progress)
-      }
+      pinSpacing: true
     }
   })
 
-  tl.to({}, { duration: 0.3 }) // 1번 정지
+  tl.to({}, { duration: 0.3 })
     .to(horizontalItems.value, {
       xPercent: -33.33,
       ease: "power2.inOut",
-      duration: 0.3
+      duration: 0.4
     })
-    .to({}, { duration: 0.3 }) // 2번 정지
+    .to({}, { duration: 0.3 })
     .to(horizontalItems.value, {
       xPercent: -66.66,
       ease: "power2.inOut",
-      duration: 0.3
+      duration: 0.4
     })
-    .to({}, { duration: 0.2 }) // 마지막 정지
+    .to({}, { duration: 0.2 })
 
   scrollTriggerInstance = tl.scrollTrigger
 
-  // ✅ page_ingredientsCtn 등장 애니메이션
+  // 아래 섹션 등장
   gsap.set([".page_ingredientDescriptions", ".page_ingredients"], {
     opacity: 0,
     y: 100
@@ -193,22 +274,17 @@ onMounted(async () => {
       y: 0,
       duration: 0.8,
       ease: "power2.out"
-    }, 0.2) // 0.2초 뒤에 자연스럽게 나옴
+    }, 0.2)
 
-  // ✅ ScrollTrigger 갱신을 약간 늦게 실행 (애니메이션 정확도 개선)
   setTimeout(() => {
     ScrollTrigger.refresh()
   }, 300)
 })
 
 onUnmounted(() => {
-  if (scrollTriggerInstance) {
-    scrollTriggerInstance.kill()
-  }
+  if (scrollTriggerInstance) scrollTriggerInstance.kill()
 
-  keywordAnimations.forEach(animation => {
-    animation.kill()
-  })
+  keywordAnimations.forEach(animation => animation.kill())
 
   ScrollTrigger.getAll().forEach(trigger => {
     if (trigger.vars?.trigger === horizontalScroll.value) {
@@ -217,6 +293,7 @@ onUnmounted(() => {
   })
 })
 </script>
+
 
 
 

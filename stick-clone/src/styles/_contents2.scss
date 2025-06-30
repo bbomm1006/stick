@@ -207,9 +207,288 @@
 
 }
 
-
 .page_ingredientsCtn .page_ingredientDescriptions,
 .page_ingredientsCtn .page_ingredients {
     opacity: 0;
     transform: translateY(100px)
+}
+
+/* 이모지 1 */
+.page_horizontalItem{
+    .lf-player-container{
+        img{width:100%}   
+    }
+    &:first-child{
+
+        .page_springYellow {
+            position: absolute;
+            width: 8%;
+            aspect-ratio: 1/1;
+            top: 36%;
+            left: 70%;
+            z-index: 1;            
+        }
+
+        .page_zero {
+            position: absolute;
+            width: 6%;
+            aspect-ratio: 1/1;
+            top: 15%;
+            left: 33%;
+            z-index: 2
+        }
+
+        .page_star {
+            position: absolute;
+            width: 5%;
+            aspect-ratio: 1/1;
+            top: 53%;
+            left: 36%;
+            z-index: 2
+        }
+
+        .page_cloud {
+            position: absolute;
+            width: 12%;
+            aspect-ratio: 155/179;
+            top: 60%;
+            left: 60%;
+            z-index: 1
+        }
+        
+        @media screen and (max-width: 1024px) {
+
+            .page_springYellow {
+                width: 12%;
+                top: 20%;
+                left: 42%
+            }
+
+            .page_zero {
+                width: 20%;
+                top: 25%;
+                left: 30%
+            }
+
+            .page_star {
+                width: 6%;
+                top: 40%;
+                left: 80%;
+                z-index: 1
+            }
+
+            .page_cloud {
+                width: 13%;
+                top: 58%;
+                width: 20%;
+                top: 55%;
+                left: 60%;
+                z-index: 1
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+
+            .page_springYellow {
+                width: 20%;
+                top: 24%;
+                left: 27%
+            }
+
+            .page_star {
+                width: 8%;
+                top: 32%;
+                left: 72%;
+                z-index: 1
+            }
+        }
+
+    }
+    &:nth-child(2){
+
+        .page_sunglass {
+            position: absolute;
+            width: 12%;
+            aspect-ratio: 1/1;
+            top: 38%;
+            left: 25%;
+            z-index: 2
+        }
+
+        .page_springYellow {
+            position: absolute;
+            width: 8%;
+            aspect-ratio: 1/1;
+            top: 18%;
+            left: 36%;
+            z-index: 1
+        }
+
+        .page_handbag {
+            position: absolute;
+            width: 8%;
+            aspect-ratio: 155/179;
+            top: 63%;
+            left: 55%;
+            z-index: 1
+        }
+
+        .page_star {
+            position: absolute;
+            width: 5%;
+            aspect-ratio: 1/1;
+            top: 40%;
+            left: 70%;
+            z-index: 2
+        }
+
+        @media screen and (max-width: 1024px) {
+
+            .page_sunglass {
+                width: 30%;
+                top: 20%;
+                left: 15%
+            }
+
+            .page_springYellow {
+                width: 12%;
+                top: 20%;
+                left: 42%
+            }
+
+            .page_handbag {
+                width: 20%;
+                top: 55%;
+                left: 65%
+            }
+
+            .page_star {
+                width: 6%;
+                top: 40%;
+                left: 80%;
+                z-index: 1
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+
+            .page_sunglass {
+                width: 35%;
+                top: 38%;
+                left: 15%
+            }
+
+            .page_springYellow {
+                width: 20%;
+                top: 24%;
+                left: 27%
+            }
+
+            .page_handbag {
+                width: 30%;
+                top: 50%;
+                left: 58%
+            }
+
+            .page_star {
+                width: 8%;
+                top: 32%;
+                left: 72%;
+                z-index: 1
+            }
+        }
+    }
+    &:nth-child(3){
+
+        .page_springBlue {
+            width: 7%;
+            top: 35%;
+            left: 58%;
+            z-index: 1
+        }
+
+        .page_mango {
+            position: absolute;
+            aspect-ratio: 1/1;
+            width: 10%;
+            top: 41%;
+            left: 30%;
+            z-index: 2
+        }
+
+        .page_springBlue {
+            position: absolute;
+            width: 8%;
+            aspect-ratio: 1/1;
+            top: 10%;
+            left: 30%;
+            z-index: 2
+        }
+
+        .page_smile {
+            position: absolute;
+            width: 9%;
+            aspect-ratio: 155/179;
+            top: 10%;
+            left: 57%;
+            transform: rotate(15deg);
+            z-index: 1
+        }
+
+        @media screen and (max-width: 1366px) {
+
+            .page_springBlue {
+                width: 15%;
+                top: 30%;
+                left: 65%;
+                z-index: 1
+            }
+  
+        }
+
+        @media screen and (max-width: 1024px) {
+        
+            .page_springBlue {
+                width: 10%;
+                top: 35%;
+                left: 60%
+            }
+      
+            .page_mango {
+                z-index: 1;
+                width: 22%;
+                top: 48%;
+                left: 20%
+            }
+
+            .page_smile {
+                z-index: 1;
+                width: 20%;
+                top: 23%;
+                left: 60%
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+      
+            .page_springBlue {
+                width: 16%;
+                top: 28%;
+                left: 70%;
+                z-index: 1
+            }
+
+            .page_mango {
+                width: 32%;
+                top: 45%;
+                left: 12%
+            }
+
+            .page_smile {
+                width: 25%;
+                top: 25%;
+                left: 58%
+            }
+        }
+    }
 }
