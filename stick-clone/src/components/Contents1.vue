@@ -389,7 +389,7 @@ onMounted(() => {
       // 약간의 지연 후 스크롤 애니메이션 설정
       setTimeout(() => {
         setupScrollAnimations()
-      }, 100)
+      }, 50)
     }
   })
 

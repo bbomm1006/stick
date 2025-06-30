@@ -1,13 +1,13 @@
 <template>
     <div class="page_pinContainer">
         <div>
-            <div class="page_horizontalScroll">
-                <div class="page_horizontalSticky">
-                    <div class="page_horizontalItems page_stickZero">
+            <div class="page_horizontalScroll" ref="horizontalScroll">
+                <div class="page_horizontalSticky" ref="horizontalSticky">
+                    <div class="page_horizontalItems page_stickZero" ref="horizontalItems">
                         <div class="page_horizontalItem">
                             <div class="grid-m page_keywords">
-                                <div class="product-h1 page_keyword1" style="translate: none; rotate: none; scale: none; transform: translate(-30%, 0px);">Simply</div>
-                                <div class="product-h1 page_keyword2" style="translate: none; rotate: none; scale: none; transform: translate(30%, 0px);">Zero</div>
+                                <div class="product-h1 page_keyword1" ref="keyword1_0">Simply</div>
+                                <div class="product-h1 page_keyword2" ref="keyword2_0">Zero</div>
                             </div>
                             <div class="grid-m page_horizontalDescriptions">
                                 <div class="product-t3 page_horizontalTitle">제로칼로리로 <br/>더 가볍게, 새롭게</div>
@@ -16,22 +16,22 @@
                         </div>
                         <div class="page_horizontalItem">
                             <div class="grid-m page_keywords">
-                                <div class="product-h1 page_keyword1" style="translate: none; rotate: none; scale: none; transform: translate(-30%, 0px);">Simply</div>
-                                <div class="product-h1 page_keyword2" style="translate: none; rotate: none; scale: none; transform: translate(30%, 0px);">Zero</div>
+                                <div class="product-h1 page_keyword1" ref="keyword1_1">Natural</div>
+                                <div class="product-h1 page_keyword2" ref="keyword2_1">Fresh</div>
                             </div>
                             <div class="grid-m page_horizontalDescriptions">
-                                <div class="product-t3 page_horizontalTitle">제로칼로리로 <br/>더 가볍게, 새롭게</div>
-                                <div class="product-b1 page_horizontalDescription">#설탕ZERO #칼로리50%DOWN</div>
+                                <div class="product-t3 page_horizontalTitle">자연의 신선함을 <br/>그대로 담았습니다</div>
+                                <div class="product-b1 page_horizontalDescription">#천연재료 #무첨가</div>
                             </div>
                         </div>
                         <div class="page_horizontalItem">
                             <div class="grid-m page_keywords">
-                                <div class="product-h1 page_keyword1" style="translate: none; rotate: none; scale: none; transform: translate(-30%, 0px);">Simply</div>
-                                <div class="product-h1 page_keyword2" style="translate: none; rotate: none; scale: none; transform: translate(30%, 0px);">Zero</div>
+                                <div class="product-h1 page_keyword1" ref="keyword1_2">Healthy</div>
+                                <div class="product-h1 page_keyword2" ref="keyword2_2">Life</div>
                             </div>
                             <div class="grid-m page_horizontalDescriptions">
-                                <div class="product-t3 page_horizontalTitle">제로칼로리로 <br/>더 가볍게, 새롭게</div>
-                                <div class="product-b1 page_horizontalDescription">#설탕ZERO #칼로리50%DOWN</div>
+                                <div class="product-t3 page_horizontalTitle">건강한 라이프스타일의 <br/>새로운 시작</div>
+                                <div class="product-b1 page_horizontalDescription">#건강음료 #라이프스타일</div>
                             </div>
                         </div>
                     </div>
@@ -40,12 +40,12 @@
         </div>
 
         <div class="grid-m page_ingredientsCtn">
-            <div class="page_ingredientDescriptions" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0px); opacity: 1;">
+            <div class="page_ingredientDescriptions" ref="ingredientDescriptions">
                 <div class="product-t2-b page_ingredientTextTitle">인체적용시험으로 확인된 <br/>과학적 숙취해소 효과​</div>
                 <div class="product-b1 page_ingredientDescription">식품의약품안전처 가이드라인을 준수한 인체적용시험 실시 결과, <br/>유효성분 글루타치온이 숙취원인물질인 혈중 아세트알데히드의 효과적 감소를 도와줍니다. <br/>밀크씨슬추출분말, 아티초크추출분말 등 엄선한 원료를 했습니다.</div>
             </div>
 
-            <div class="page_ingredients" style="translate: none; rotate: none; scale: none; transform: translate(0%, 0px); opacity: 1;">
+            <div class="page_ingredients" ref="ingredients">
                 <div>
                     <div class="page_ingredientInner">
                         <div class="page_ingredientImg">
@@ -100,8 +100,125 @@
 </template>
 
 <script setup>
-// 스크립트는 없음
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// refs
+const horizontalScroll = ref(null)
+const horizontalSticky = ref(null)
+const horizontalItems = ref(null)
+const keyword1_0 = ref(null)
+const keyword2_0 = ref(null)
+const keyword1_1 = ref(null)
+const keyword2_1 = ref(null)
+const keyword1_2 = ref(null)
+const keyword2_2 = ref(null)
+
+let scrollTriggerInstance = null
+let keywordAnimations = []
+
+onMounted(async () => {
+  await nextTick()
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  if (!horizontalScroll.value || !horizontalSticky.value || !horizontalItems.value) {
+    console.error('Required elements not found')
+    return
+  }
+
+  // 초기 키워드 위치 설정
+  gsap.set([keyword1_0.value, keyword1_1.value, keyword1_2.value], {
+    x: -30,
+  })
+  gsap.set([keyword2_0.value, keyword2_1.value, keyword2_2.value], {
+    x: 30,
+  })
+
+  // 가로 스크롤 애니메이션
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: horizontalScroll.value,
+      pin: horizontalSticky.value,
+      scrub: 1,
+      start: "top top",
+      end: "+=250%",
+      anticipatePin: 1,
+      pinSpacing: true,
+      onUpdate: (self) => {
+        console.log('Scroll progress:', self.progress)
+      }
+    }
+  })
+
+  tl.to({}, { duration: 0.3 }) // 1번 정지
+    .to(horizontalItems.value, {
+      xPercent: -33.33,
+      ease: "power2.inOut",
+      duration: 0.3
+    })
+    .to({}, { duration: 0.3 }) // 2번 정지
+    .to(horizontalItems.value, {
+      xPercent: -66.66,
+      ease: "power2.inOut",
+      duration: 0.3
+    })
+    .to({}, { duration: 0.2 }) // 마지막 정지
+
+  scrollTriggerInstance = tl.scrollTrigger
+
+  // ✅ page_ingredientsCtn 등장 애니메이션
+  gsap.set([".page_ingredientDescriptions", ".page_ingredients"], {
+    opacity: 0,
+    y: 100
+  })
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: ".page_ingredientsCtn",
+      start: "top 80%",
+      toggleActions: "play none none none",
+      once: true
+    }
+  })
+    .to(".page_ingredientDescriptions", {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    }, 0)
+    .to(".page_ingredients", {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power2.out"
+    }, 0.2) // 0.2초 뒤에 자연스럽게 나옴
+
+  // ✅ ScrollTrigger 갱신을 약간 늦게 실행 (애니메이션 정확도 개선)
+  setTimeout(() => {
+    ScrollTrigger.refresh()
+  }, 300)
+})
+
+onUnmounted(() => {
+  if (scrollTriggerInstance) {
+    scrollTriggerInstance.kill()
+  }
+
+  keywordAnimations.forEach(animation => {
+    animation.kill()
+  })
+
+  ScrollTrigger.getAll().forEach(trigger => {
+    if (trigger.vars?.trigger === horizontalScroll.value) {
+      trigger.kill()
+    }
+  })
+})
 </script>
+
+
 
 <style lang="scss" scoped>
 @use '@/styles/contents2' as *;
