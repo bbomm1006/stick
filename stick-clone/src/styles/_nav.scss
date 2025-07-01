@@ -28,7 +28,12 @@
         li{
             padding: .5rem 1rem;
             opacity: .4;
-            transition: opacity .3s cubic-bezier(.66,.1,.37,.94)
+            transition: opacity .3s cubic-bezier(.66,.1,.37,.94);
+            &.page_active {
+                opacity: 1;
+                transition: opacity .3s cubic-bezier(.66,.1,.37,.94)
+            }
+
         }
     }
 
@@ -85,4 +90,8 @@
     left: 0;
     height: .2rem;
     background: #00a5e7
+}
+
+.page_productNav {
+    transition: transform 0.4s ease-in-out;
 }
