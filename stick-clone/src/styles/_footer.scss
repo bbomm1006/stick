@@ -518,7 +518,11 @@
 }
 
 .floating-button .lottie-icon {
-    display: none
+    display: none;
+    width: 280px;
+    position: relative;
+    bottom: -20px;
+    // right: -30px;
 }
 
 .floating-button .lottie-icon--active {

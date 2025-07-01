@@ -3,6 +3,30 @@
         class="floating-button-container floating-button-container--product"
         :class="{ 'floating-button-container--hide': isFooterVisible }"
     >
+        <div class="floating-button">
+            <div class="text-balloon" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" fill="none" class="text-balloon-triangle"><path fill="#FE3BAB" d="M10.232 15c-.77 1.333-2.694 1.333-3.464 0L.273 3.75c-.77-1.333.192-3 1.732-3h12.99c1.54 0 2.502 1.667 1.732 3z"></path></svg>
+                <div class="text-balloon-text">상쾌환 쇼핑하러<br/>갈래?</div>
+            </div>
+            <div class="shopping">
+                <a target="_blank" class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762" >온라인 쇼핑몰</a>
+                <a target="_blank" class="mall-link" href="https://map.naver.com/p/search/%ED%8E%B8%EC%9D%98%EC%A0%90" >오프라인 쇼핑몰</a>
+            </div>
+            <div class="lf-player-container">
+                <div class="lottie-icon lottie-icon--active" ref="lottieContainer1"></div>
+            </div>
+            <div class="lf-player-container">
+                <div class="lottie-icon false" ref="lottieContainer2"></div>
+            </div>
+        </div>
+        <div class="shopping-cart-container">
+            <button class="icon-button shopping-cart"></button>
+            <div class="shopping">
+                <a class="mall-link contact-btn" href="/kr/contact/customer">문의하기</a>
+                <a target="_blank" class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762">온라인 쇼핑몰</a>
+                <a class="mall-link" href="https://map.naver.com/p/search/%ED%8E%B8%EC%9D%98%EC%A0%90">오프라인 쇼핑몰</a>
+            </div>
+        </div>
         <button class="icon-button top-btn" @click="scrollToTop">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.74 12 7m0 0 5 4.74M12 7v10"></path>
             </svg>
@@ -57,26 +81,49 @@
 </template>
 
 <script>
+import lottie from 'lottie-web'
+import charAnimation from '@/assets/char.json'
+import charOnAnimation from '@/assets/char_on.json'
+
 export default {
   data() {
     return {
       isFooterVisible: false,
-      observer: null
+      observer: null,
+      shouldLoadLottie: false,
+      lottieAnimation1: null,
+      lottieAnimation2: null
     };
   },
   mounted() {
     this.setupFooterObserver();
+    
+    // DOM 완전 렌더링 후 Lottie 로드
+    this.$nextTick(() => {
+      this.shouldLoadLottie = true;
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.loadLottieAnimations();
+        }, 100);
+      });
+    });
   },
   beforeUnmount() {
     if (this.observer) {
       this.observer.disconnect();
+    }
+    if (this.lottieAnimation1) {
+      this.lottieAnimation1.destroy();
+    }
+    if (this.lottieAnimation2) {
+      this.lottieAnimation2.destroy();
     }
   },
   methods: {
     scrollToTop() {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth' // 부드럽게 스크롤
+        behavior: 'smooth'
       });
     },
     setupFooterObserver() {
@@ -87,17 +134,56 @@ export default {
           });
         },
         {
-          threshold: 0.1 // footer가 10% 보일 때 감지
+          threshold: 0.1
         }
       );
-
       if (this.$refs.footer) {
         this.observer.observe(this.$refs.footer);
+      }
+    },
+    loadLottieAnimations() {
+      console.log('Lottie 애니메이션들 로드 시작');
+      console.log('lottieContainer1 ref:', this.$refs.lottieContainer1);
+      console.log('lottieContainer2 ref:', this.$refs.lottieContainer2);
+      
+      // 첫 번째 애니메이션 로드
+      this.createLottieAnimation(
+        this.$refs.lottieContainer1, 
+        charAnimation, 
+        'lottieAnimation1'
+      );
+      
+      // 두 번째 애니메이션 로드
+      this.createLottieAnimation(
+        this.$refs.lottieContainer2, 
+        charOnAnimation, 
+        'lottieAnimation2'
+      );
+    },
+    createLottieAnimation(container, animationData, propertyName) {
+      try {
+        // 기존 애니메이션이 있다면 제거
+        if (this[propertyName]) {
+          this[propertyName].destroy();
+        }
+        
+        this[propertyName] = lottie.loadAnimation({
+          container: container,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          animationData: animationData
+        });
+        
+        console.log(`${propertyName} 로드 완료`);
+      } catch (error) {
+        console.error(`${propertyName} 초기화 에러:`, error);
       }
     }
   }
 };
 </script>
+
 
 <style lang="scss" scoped>
 @use '@/styles/footer' as *;
