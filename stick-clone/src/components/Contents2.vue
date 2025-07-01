@@ -14,25 +14,25 @@
                                 <div class="product-b1 page_horizontalDescription">#설탕ZERO #칼로리50%DOWN</div>
                             </div>
 
-                            <div class="page_springYellow">
+                            <div class="page_springYellow page_emoji">
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/spring.png" alt=""/> 
                                 </div>
                             </div>
                             
-                            <div class="page_star" >
+                            <div class="page_star page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/star.png" alt=""/> 
                                 </div>
                             </div>
                             
-                            <div class="page_zero" >
+                            <div class="page_zero page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/zero.png" alt=""/> 
                                 </div>
                             </div>
 
-                            <div class="page_cloud" >
+                            <div class="page_cloud page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/cloud.png" alt=""/> 
                                 </div>
@@ -49,25 +49,25 @@
                                 <div class="product-b1 page_horizontalDescription">#천연재료 #무첨가</div>
                             </div>
                             
-                            <div class="page_springYellow">
+                            <div class="page_springYellow page_emoji">
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/spring.png" alt=""/> 
                                 </div>
                             </div>
                             
-                            <div class="page_sunglass" >
+                            <div class="page_sunglass page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/sun.png" alt=""/> 
                                 </div>
                             </div>
                             
-                            <div class="page_star" >
+                            <div class="page_star page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/star.png" alt=""/> 
                                 </div>
                             </div>
 
-                            <div class="page_handbag" >
+                            <div class="page_handbag page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/bag.png" alt=""/> 
                                 </div>
@@ -84,19 +84,19 @@
                                 <div class="product-b1 page_horizontalDescription">#건강음료 #라이프스타일</div>
                             </div>
 
-                             <div class="page_springBlue">
+                             <div class="page_springBlue page_emoji">
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/spring2.png" alt=""/> 
                                 </div>
                             </div>
 
-                            <div class="page_mango" >
+                            <div class="page_mango page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/mango.png" alt=""/> 
                                 </div>
                             </div>
 
-                            <div class="page_smile" >
+                            <div class="page_smile page_emoji" >
                                 <div class="lf-player-container">
                                     <img src="/images/aniimg/smile.png" alt=""/> 
                                 </div>
@@ -180,6 +180,7 @@ const keyword2_0 = ref(null)
 
 let scrollTriggerInstance = null
 let keywordAnimations = []
+let emojiScrollTriggers = []
 
 onMounted(async () => {
   await nextTick()
@@ -202,7 +203,7 @@ onMounted(async () => {
       duration: 2,
       scrollTrigger: {
         trigger: keyword1_0.value,
-        start: "top 80%", // 👈 화면에 살짝만 보여도 시작
+        start: "top 80%",
         end: "top 40%",
         scrub: true
       }
@@ -219,6 +220,26 @@ onMounted(async () => {
       }
     })
   )
+
+  // 각 섹션의 이모지 요소들 가져오기
+  const horizontalItemElements = horizontalItems.value.querySelectorAll('.page_horizontalItem')
+  const firstSectionEmojis = horizontalItemElements[0]?.querySelectorAll('.page_emoji') || []
+  const secondSectionEmojis = horizontalItemElements[1]?.querySelectorAll('.page_emoji') || []
+  const thirdSectionEmojis = horizontalItemElements[2]?.querySelectorAll('.page_emoji') || []
+
+  // 모든 이모지에 기본 둥둥 떠다니는 애니메이션 적용
+  const allEmojis = [...firstSectionEmojis, ...secondSectionEmojis, ...thirdSectionEmojis]
+  allEmojis.forEach((emoji, index) => {
+    // 각 이모지마다 다른 속도와 지연시간으로 자연스러운 움직임
+    gsap.to(emoji, {
+      y: `+=${20 + (index % 3) * 5}`, // 10px~20px 범위에서 위아래 움직임
+      duration: 2 + (index % 4) * 0.5, // 2초~3.5초 사이의 다른 속도
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+      delay: (index % 5) * 0.3 // 각기 다른 시작 지연으로 자연스러움
+    })
+  })
 
   // 가로 스크롤 타임라인
   const tl = gsap.timeline({
@@ -248,6 +269,84 @@ onMounted(async () => {
     .to({}, { duration: 0.2 })
 
   scrollTriggerInstance = tl.scrollTrigger
+
+  // 이모지 parallax 효과 - 가로 스크롤과 반대 방향으로 이동
+  // 첫 번째 섹션 이모지들
+  firstSectionEmojis.forEach((emoji, index) => {
+    const parallaxTrigger = ScrollTrigger.create({
+      trigger: horizontalScroll.value,
+      start: "top top",
+      end: "+=100%", // 첫 번째 전환 구간 (-33% 까지)
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress
+        // 가로 스크롤과 반대 방향으로 살짝 이동 (기존 둥둥 효과는 유지)
+        const moveX = progress * (50 + index * 20) * -1 // 좌측으로 이동
+        
+        gsap.set(emoji, { 
+          x: moveX
+        })
+      }
+    })
+    emojiScrollTriggers.push(parallaxTrigger)
+  })
+
+  // 두 번째 섹션 이모지들
+  secondSectionEmojis.forEach((emoji, index) => {
+    const parallaxTrigger = ScrollTrigger.create({
+      trigger: horizontalScroll.value,
+      start: "top top",
+      end: "+=250%", // 전체 구간
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress
+        let moveX = 0
+
+        // 첫 번째 전환 구간 (0 ~ 0.4) - 첫 번째 이동 시 살짝 좌측으로
+        if (progress <= 0.4) {
+          const localProgress = progress / 0.4
+          moveX = localProgress * (40 + index * 15) * -1
+        }
+        // 두 번째 전환 구간 (0.6 ~ 1.0) - 두 번째 이동 시 더 좌측으로
+        else if (progress >= 0.6) {
+          const localProgress = (progress - 0.6) / 0.4
+          moveX = (40 + index * 15) * -1 + localProgress * (60 + index * 25) * -1
+        }
+        // 중간 정지 구간 (0.4 ~ 0.6) - 첫 번째 이동량 유지
+        else {
+          moveX = (40 + index * 15) * -1
+        }
+
+        gsap.set(emoji, { 
+          x: moveX
+        })
+      }
+    })
+    emojiScrollTriggers.push(parallaxTrigger)
+  })
+
+  // 세 번째 섹션 이모지들
+  thirdSectionEmojis.forEach((emoji, index) => {
+    const parallaxTrigger = ScrollTrigger.create({
+      trigger: horizontalScroll.value,
+      start: "top top",
+      end: "+=150%", // 두 번째 전환부터
+      scrub: 1,
+      onUpdate: (self) => {
+        const progress = self.progress
+        // 0.6 지점부터 시작 (두 번째 전환)
+        if (progress >= 0.6) {
+          const localProgress = (progress - 0.6) / 0.4
+          const moveX = localProgress * (80 + index * 30) * -1 // 가장 많이 좌측으로
+          
+          gsap.set(emoji, { 
+            x: moveX
+          })
+        }
+      }
+    })
+    emojiScrollTriggers.push(parallaxTrigger)
+  })
 
   // 아래 섹션 등장
   gsap.set([".page_ingredientDescriptions", ".page_ingredients"], {
@@ -285,6 +384,9 @@ onUnmounted(() => {
   if (scrollTriggerInstance) scrollTriggerInstance.kill()
 
   keywordAnimations.forEach(animation => animation.kill())
+  
+  // 이모지 ScrollTrigger들 cleanup
+  emojiScrollTriggers.forEach(trigger => trigger.kill())
 
   ScrollTrigger.getAll().forEach(trigger => {
     if (trigger.vars?.trigger === horizontalScroll.value) {
