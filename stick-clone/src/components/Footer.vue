@@ -1,11 +1,14 @@
 <template>
-    <div class="floating-button-container floating-button-container--product">
+    <div 
+        class="floating-button-container floating-button-container--product"
+        :class="{ 'floating-button-container--hide': isFooterVisible }"
+    >
         <button class="icon-button top-btn" @click="scrollToTop">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.74 12 7m0 0 5 4.74M12 7v10"></path>
             </svg>
         </button>
     </div>
-    <footer id="footer" class="grid-xl">
+    <footer id="footer" class="grid-xl" ref="footer">
     <ul class="link-items">
         <li class="link-item"><div>개인정보처리방침</div></li><li class="link-item"><div>이용약관</div></li>
         <li class="link-item"><div>이메일무단수집거부</div></li>
@@ -55,12 +58,42 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isFooterVisible: false,
+      observer: null
+    };
+  },
+  mounted() {
+    this.setupFooterObserver();
+  },
+  beforeUnmount() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  },
   methods: {
     scrollToTop() {
       window.scrollTo({
         top: 0,
         behavior: 'smooth' // 부드럽게 스크롤
       });
+    },
+    setupFooterObserver() {
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            this.isFooterVisible = entry.isIntersecting;
+          });
+        },
+        {
+          threshold: 0.1 // footer가 10% 보일 때 감지
+        }
+      );
+
+      if (this.$refs.footer) {
+        this.observer.observe(this.$refs.footer);
+      }
     }
   }
 };

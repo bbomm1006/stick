@@ -622,3 +622,11 @@
         height: 5.2rem
     }
 }
+
+.floating-button-container--hide {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(30px);
+    transition: .3s cubic-bezier(.66,.1,.37,.94);
+    transition-property: opacity,transform
+}
