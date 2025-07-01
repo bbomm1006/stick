@@ -1,7 +1,7 @@
 <template>
     <div
     class="nav grid-xl page_productNav"
-    :style="{ transform: isFooterVisible ? 'translate(0px, 100%)' : 'translate(0px, 0%)' }"
+    :style="{ transform: getTransform() }"
     >
         <div class="page_progressBar" :style="{ width: scrollPercent + '%' }"></div>
         <div class="page_productDropdown">
@@ -25,6 +25,14 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const scrollPercent = ref(0)
 const isFooterVisible = ref(false)
+const isInitialHidden = ref(true)
+
+const getTransform = () => {
+  if (isInitialHidden.value) {
+    return 'translate(0px, 100%)'
+  }
+  return isFooterVisible.value ? 'translate(0px, 100%)' : 'translate(0px, 0%)'
+}
 
 const updateScroll = () => {
   const scrollTop = window.scrollY
@@ -38,6 +46,11 @@ let observer = null
 onMounted(() => {
   window.addEventListener('scroll', updateScroll)
   updateScroll()
+
+  // 3초 후에 네비게이션 표시
+  setTimeout(() => {
+    isInitialHidden.value = false
+  }, 3000)
 
   const footer = document.querySelector('footer')
   if (footer) {
@@ -56,6 +69,14 @@ onUnmounted(() => {
   if (observer) observer.disconnect()
 })
 </script>
+
+<style lang="scss" scoped>
+@use '@/styles/nav' as *;
+
+.page_productNav {
+  transition: transform 0.4s ease-in-out;
+}
+</style>
 
 
 

@@ -1,22 +1,70 @@
 <template>
     <div 
         class="floating-button-container floating-button-container--product"
-        :class="{ 'floating-button-container--hide': isFooterVisible }"
+        :class="{ 
+            'floating-button-container--hide': isFooterVisible || scrollY < 1 
+        }"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
     >
         <div class="floating-button">
-            <div class="text-balloon" style="translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+            <div 
+                class="text-balloon" 
+                :style="{ 
+                translate: 'none', 
+                rotate: 'none', 
+                scale: 'none', 
+                opacity: isHovered ? 0 : 1, 
+                transform: isHovered ? 'scale(0.5, 0.5)' : 'translate(0px, 0px)' 
+                }"
+            >
                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" fill="none" class="text-balloon-triangle"><path fill="#FE3BAB" d="M10.232 15c-.77 1.333-2.694 1.333-3.464 0L.273 3.75c-.77-1.333.192-3 1.732-3h12.99c1.54 0 2.502 1.667 1.732 3z"></path></svg>
                 <div class="text-balloon-text">상쾌환 쇼핑하러<br/>갈래?</div>
             </div>
             <div class="shopping">
-                <a target="_blank" class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762" >온라인 쇼핑몰</a>
-                <a target="_blank" class="mall-link" href="https://map.naver.com/p/search/%ED%8E%B8%EC%9D%98%EC%A0%90" >오프라인 쇼핑몰</a>
+                <a 
+                    target="_blank" 
+                    class="mall-link" 
+                    href="#"
+                    :style="{ 
+                        translate: 'none', 
+                        rotate: 'none', 
+                        scale: 'none', 
+                        transform: 'translate(0px, 0px)', 
+                        opacity: isHovered ? 1 : 0 
+                    }"
+                    >
+                    온라인 쇼핑몰
+                </a>
+                <a 
+                    target="_blank" 
+                    class="mall-link" 
+                    href="#"
+                    :style="{ 
+                        translate: 'none', 
+                        rotate: 'none', 
+                        scale: 'none', 
+                        transform: 'translate(0px, 0px)', 
+                        opacity: isHovered ? 1 : 0 
+                    }"
+                    >
+                    오프라인 쇼핑몰
+                </a>
             </div>
             <div class="lf-player-container">
-                <div class="lottie-icon lottie-icon--active" ref="lottieContainer1"></div>
+                <div 
+                class="lottie-icon" 
+                :class="{ 'lottie-icon--active': !isHovered }" 
+                ref="lottieContainer1"
+                ></div>
             </div>
+            
             <div class="lf-player-container">
-                <div class="lottie-icon false" ref="lottieContainer2"></div>
+                <div 
+                class="lottie-icon" 
+                :class="{ 'lottie-icon--active': isHovered }" 
+                ref="lottieContainer2"
+                ></div>
             </div>
         </div>
         <div class="shopping-cart-container">
@@ -92,11 +140,14 @@ export default {
       observer: null,
       shouldLoadLottie: false,
       lottieAnimation1: null,
-      lottieAnimation2: null
+      lottieAnimation2: null,
+      scrollY: 0,
+      isHovered: false // 마우스 오버 상태 추가
     };
   },
   mounted() {
     this.setupFooterObserver();
+    this.setupScrollListener();
     
     // DOM 완전 렌더링 후 Lottie 로드
     this.$nextTick(() => {
@@ -118,8 +169,18 @@ export default {
     if (this.lottieAnimation2) {
       this.lottieAnimation2.destroy();
     }
+    // 스크롤 리스너 제거
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+    // 마우스 오버 이벤트 핸들러 추가
+    handleMouseEnter() {
+      this.isHovered = true;
+    },
+    handleMouseLeave() {
+      this.isHovered = false;
+    },
+    
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -140,6 +201,12 @@ export default {
       if (this.$refs.footer) {
         this.observer.observe(this.$refs.footer);
       }
+    },
+    setupScrollListener() {
+      this.handleScroll = () => {
+        this.scrollY = window.scrollY;
+      };
+      window.addEventListener('scroll', this.handleScroll);
     },
     loadLottieAnimations() {
       console.log('Lottie 애니메이션들 로드 시작');
