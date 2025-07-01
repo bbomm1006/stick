@@ -68,7 +68,9 @@
             </div>
         </div>
         <div class="shopping-cart-container">
-            <button class="icon-button shopping-cart"></button>
+            <button class="icon-button shopping-cart">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4m0 0H9.294c-.461 0-.692 0-.882-.082a1 1 0 0 1-.419-.338c-.12-.168-.167-.394-.264-.845L5.271 4.265c-.096-.451-.145-.677-.265-.845a1 1 0 0 0-.418-.338C4.398 3 4.168 3 3.707 3H3m3 3h12.873c.722 0 1.083 0 1.325.15a1 1 0 0 1 .435.579c.077.274-.022.621-.222 1.314l-1.385 4.8c-.12.415-.18.623-.3.776a1 1 0 0 1-.409.307c-.181.074-.397.074-.829.074H7.73M8 21a2 2 0 1 1 0-4 2 2 0 0 1 0 4"></path></svg>
+            </button>
             <div class="shopping">
                 <a class="mall-link contact-btn" href="/kr/contact/customer">문의하기</a>
                 <a target="_blank" class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762">온라인 쇼핑몰</a>

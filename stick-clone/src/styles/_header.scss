@@ -39,35 +39,6 @@
         gap: 1.2rem;
         pointer-events: all;
 
-        .qa-btn {
-            width: -moz-fit-content;
-            width: fit-content;
-            height: 5.2rem;
-            background: #fafafa;
-            border-radius: 99px;
-            color: #0f3bae;
-            transition: background .3s cubic-bezier(.66,.1,.37,.94);
-            @media screen and (max-width: 1366px) {
-                height:4rem
-            }
-            @media screen and (max-width: 1024px) {
-                display:none;
-                height: 6.2rem
-            }
-            @media screen and (max-width: 1366px) {
-                width:1.8rem;
-                height: 1.8rem
-            }
-
-            .qa-btn__text {
-                padding: 1.4rem 1.4rem 1.4rem 1.8rem;
-                display: flex;
-                align-items: center;
-                gap: .4rem;
-                font-size: 1.6rem;
-                font-weight: 700
-            }
-        }
 
         .offcanvas-open {
             background: #0f3bae;
@@ -407,7 +378,7 @@
     align-items: center;
     position: relative;
     padding: 5rem 8rem;
-    background: linear-gradient(180deg,rgba(0,0,0,.3),transparent)
+    
 }
 
 .navbar .navbar-gnb--hide {

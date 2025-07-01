@@ -21,7 +21,12 @@
 .page_horizontalItems {
     display: flex;
     width: 300%;
-    height: 100%
+    height: 100%;
+    @media screen and (max-width: 1024px) {
+        flex-direction:column;
+        width: 100%;
+        height: 300%
+    }
 }
 .page_horizontalItem{
     position: relative;
@@ -35,6 +40,10 @@
     }
     &:nth-child(3) {
         background: #f0048c
+    }
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+        height: 33.3333333333%
     }
 }
 .page_keywords{
@@ -89,6 +98,56 @@
     }
     @media screen and (max-width: 1366px) {
         padding-bottom: 14.1rem
+    }
+}
+
+@media screen and (max-width: 1024px) {
+
+    .page_keywords {
+        padding-bottom: 11.4rem
+    }
+
+    .page_keyword1 {
+        margin-bottom: -3rem
+    }
+
+    .page_keyword2 {
+        margin-top: -3rem
+    }
+
+    .page_horizontalDescriptions {
+        padding-bottom: 20.2rem
+    }
+
+    .page_horizontalDescriptions .page_horizontalDescription {
+        margin-top: 1.2rem
+    }
+}
+@media screen and (max-width: 700px) {
+    .page_keywords {
+        padding-bottom:8.3rem
+    }
+
+    .page_keyword1 {
+        margin-bottom: -1.5rem
+    }
+
+    .page_keyword2 {
+        margin-top: -1.5rem
+    }
+
+    .page_horizontalDescriptions {
+        padding-bottom: 12.3rem
+    }
+
+    .page_horizontalItem:nth-child(3) .page_horizontalTitle {
+        max-width: 80%;
+        -webkit-line-clamp: 2;
+        line-clamp: 2
+    }
+
+    .page_horizontalDescription {
+        margin-top: .8rem
     }
 }
 
