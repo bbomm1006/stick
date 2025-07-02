@@ -164,6 +164,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="grid-m page_packetBoxs">
+          <div class="page_packetBox" ><img src="/images/stick_box.jpg" alt=""/></div>
+        </div>
     </div>
 </template>
 
