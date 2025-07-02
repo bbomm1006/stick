@@ -138,7 +138,7 @@ const scrollToSection = (sectionClass) => {
       break
     case 'page_scrollToIntroduction':
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      targetPosition = docHeight * 0.0904 // 9.04%
+      targetPosition = docHeight * 0.100569 // 10.0569%
       break
     case 'page_scrollToHorizontalScroll':
       const horizontalScrollEl = document.querySelector('.page_horizontalScroll')
@@ -151,14 +151,14 @@ const scrollToSection = (sectionClass) => {
       const ingredientsCtnEl = document.querySelector('.page_ingredientsCtn')
       if (ingredientsCtnEl) {
         const rect = ingredientsCtnEl.getBoundingClientRect()
-        targetPosition = rect.top + window.scrollY
+        targetPosition = rect.top + window.scrollY + 10 // 조정
       }
       break
     case 'page_scrollToSpecs':
       const specButtonsEl = document.querySelector('.page_specButtons')
       if (specButtonsEl) {
         const rect = specButtonsEl.getBoundingClientRect()
-        targetPosition = rect.top + window.scrollY
+        targetPosition = rect.top + window.scrollY + 60 // 조정
       }
       break
   }
@@ -194,10 +194,10 @@ onMounted(() => {
   // 네비게이션 클릭 이벤트 설정
   setupNavigation()
   
-  // 3초 후에 네비게이션 표시
+  // *초 후에 네비게이션 표시
   setTimeout(() => {
     isInitialHidden.value = false
-  }, 3000)
+  }, 1500)
   
   const footer = document.querySelector('footer')
   if (footer) {
