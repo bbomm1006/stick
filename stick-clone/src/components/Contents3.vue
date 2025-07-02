@@ -10,41 +10,39 @@
     </div>
     <div class="row grid-m page_specs" data-section="specs">
         <div class="col page_swiperWrapper">
-            <div class="page_mySwiper">
-                <swiper
-                    :modules="[Navigation, Pagination, Autoplay]"
-                    :pagination="{
-                        clickable: true,
-                        renderBullet: function (index, className) {
-                        return '<span class=\'' + className + ' custom-bullet\'><span class=\'bullet-progress\'></span></span>';
-                        },
-                    }"
-                    :autoplay="{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    }"
-                    :speed="800"
-                    class="mySwiper"
-                    @slideChange="onSlideChange"
-                    @swiper="onSwiper"
-                    >
-                    <swiper-slide>
-                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_1.jpg&w=750&q=75"/>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_2.jpg&w=750&q=75"/>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_3.jpg&w=750&q=75"/>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_4.jpg&w=750&q=75"/>
-                    </swiper-slide>
-                    <swiper-slide>
-                        <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_5.jpg&w=750&q=75"/>
-                    </swiper-slide>
-                </swiper>
-            </div>
+            <swiper
+              :modules="[Navigation, Pagination, Autoplay]"
+              :pagination="{
+                  clickable: true,
+                  renderBullet: function (index, className) {
+                  return '<span class=\'' + className + ' custom-bullet\'><span class=\'bullet-progress\'></span></span>';
+                  },
+              }"
+              :autoplay="{
+                  delay: 3000,
+                  disableOnInteraction: false,
+              }"
+              :speed="800"
+              class="mySwiper page_mySwiper"
+              @slideChange="onSlideChange"
+              @swiper="onSwiper"
+              >
+              <swiper-slide>
+                  <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_1.jpg&w=750&q=75"/>
+              </swiper-slide>
+              <swiper-slide>
+                  <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_2.jpg&w=750&q=75"/>
+              </swiper-slide>
+              <swiper-slide>
+                  <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_3.jpg&w=750&q=75"/>
+              </swiper-slide>
+              <swiper-slide>
+                  <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_4.jpg&w=750&q=75"/>
+              </swiper-slide>
+              <swiper-slide>
+                  <img src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fproducts%2Fstick%2Fswiper_apple_5.jpg&w=750&q=75"/>
+              </swiper-slide>
+          </swiper>
         </div>
         <div class="col product-b2 page_spec">
             <div class="row page_specWrapper">

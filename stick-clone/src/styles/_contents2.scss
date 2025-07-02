@@ -77,7 +77,7 @@
         }
         .page_keyword2 {
             margin-right: unset;
-            margin-top: -2.5rem
+            margin-top: 0
         }
     }
 }
@@ -102,7 +102,6 @@
 }
 
 @media screen and (max-width: 1024px) {
-
     .page_keywords {
         padding-bottom: 11.4rem
     }
@@ -172,12 +171,17 @@
         padding-bottom: 60.06rem
     }
     @media screen and (max-width: 700px) {
-        padding-top:10rem;
-        margin-top: 15rem;
-        padding-bottom: 44rem;
+        // padding-top: 10rem;
+        // margin-top: 15rem;
+        // padding-bottom: 44rem;
         padding-right: 5.1282vw;
+
         margin-top: 0;
         padding-top: 0;
+        padding-bottom: 15rem;
+        br{
+            display: none;
+        }
     }
 }
 
@@ -352,15 +356,24 @@
 
             .page_springYellow {
                 width: 20%;
-                top: 24%;
-                left: 27%
+                top: 23%;
+                left: 70%;
+            }
+
+            .page_zero {
+                width: 13%;
+                top: 17%;
+                left: 30%;
             }
 
             .page_star {
-                width: 8%;
-                top: 32%;
-                left: 72%;
-                z-index: 1
+                width: 6%;
+                top: 45%;
+                left: 30%;
+            }
+
+            .page_cloud {
+                top: 50%
             }
         }
 
@@ -434,7 +447,7 @@
         @media screen and (max-width: 700px) {
 
             .page_sunglass {
-                width: 35%;
+                width: 29%;
                 top: 38%;
                 left: 15%
             }
@@ -446,9 +459,9 @@
             }
 
             .page_handbag {
-                width: 30%;
+                width: 17%;
                 top: 50%;
-                left: 58%
+                left: 68%
             }
 
             .page_star {
@@ -534,21 +547,21 @@
       
             .page_springBlue {
                 width: 16%;
-                top: 28%;
-                left: 70%;
+                top: 22%;
+                left: 20%;
                 z-index: 1
             }
 
             .page_mango {
-                width: 32%;
+                width: 21%;
                 top: 45%;
                 left: 12%
             }
 
             .page_smile {
                 width: 25%;
-                top: 25%;
-                left: 58%
+                top: 22%;
+                left: 63%
             }
         }
     }

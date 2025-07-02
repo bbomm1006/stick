@@ -181,6 +181,7 @@ const keyword2_0 = ref(null)
 let scrollTriggerInstance = null
 let keywordAnimations = []
 let emojiScrollTriggers = []
+let floatingAnimations = []
 let isDesktop = true
 
 const checkScreenSize = () => {
@@ -191,6 +192,7 @@ const killAllAnimations = () => {
   if (scrollTriggerInstance) scrollTriggerInstance.kill()
   keywordAnimations.forEach(animation => animation.kill())
   emojiScrollTriggers.forEach(trigger => trigger.kill())
+  floatingAnimations.forEach(animation => animation.kill())
   ScrollTrigger.getAll().forEach(trigger => {
     if (trigger.vars?.trigger === horizontalScroll.value) {
       trigger.kill()
@@ -198,6 +200,7 @@ const killAllAnimations = () => {
   })
   keywordAnimations = []
   emojiScrollTriggers = []
+  floatingAnimations = []
   scrollTriggerInstance = null
 }
 
@@ -244,19 +247,19 @@ const initAnimations = async () => {
     )
   }
 
-
   // 각 섹션의 이모지 요소들 가져오기
   const horizontalItemElements = horizontalItems.value.querySelectorAll('.page_horizontalItem')
   const firstSectionEmojis = horizontalItemElements[0]?.querySelectorAll('.page_emoji') || []
   const secondSectionEmojis = horizontalItemElements[1]?.querySelectorAll('.page_emoji') || []
   const thirdSectionEmojis = horizontalItemElements[2]?.querySelectorAll('.page_emoji') || []
 
-  // 모든 이모지에 기본 둥둥 떠다니는 애니메이션 적용 (화면 크기에 따라 방향 다름)
+  // 모든 이모지에 기본 둥둥 떠다니는 애니메이션 적용
   const allEmojis = [...firstSectionEmojis, ...secondSectionEmojis, ...thirdSectionEmojis]
-  allEmojis.forEach((emoji, index) => {
-    if (isDesktop) {
-      // 데스크톱: 좌우로 둥둥
-      gsap.to(emoji, {
+  
+  if (isDesktop) {
+    // 데스크톱: 좌우로 둥둥 (기존과 동일)
+    allEmojis.forEach((emoji, index) => {
+      const floatingAnim = gsap.to(emoji, {
         x: `+=${20 + (index % 3) * 5}`,
         duration: 2 + (index % 4) * 0.5,
         ease: "sine.inOut",
@@ -264,20 +267,14 @@ const initAnimations = async () => {
         repeat: -1,
         delay: (index % 5) * 0.3
       })
-    } else {
-      // 모바일: 상하로 둥둥
-      gsap.to(emoji, {
-        y: `+=${20 + (index % 3) * 5}`,
-        duration: 2 + (index % 4) * 0.5,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-        delay: (index % 5) * 0.3
-      })
-    }
-  })
+      floatingAnimations.push(floatingAnim)
+    })
+  } else {
+    // 모바일: 둥둥 애니메이션 제거 (성능 최적화)
+    // 정적 상태로 유지
+  }
 
-  // 메인 스크롤 타임라인 (데스크톱/모바일 구분)
+  // 메인 스크롤 타임라인
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: horizontalScroll.value,
@@ -291,7 +288,7 @@ const initAnimations = async () => {
   })
 
   if (isDesktop) {
-    // 데스크톱: 가로 스크롤 (-33.33%, -66.66%)
+    // 데스크톱: 가로 스크롤 (기존과 동일)
     tl.to({}, { duration: 0.3 })
       .to(horizontalItems.value, {
         xPercent: -33.33,
@@ -306,7 +303,7 @@ const initAnimations = async () => {
       })
       .to({}, { duration: 0.2 })
   } else {
-    // 모바일: 세로 스크롤 (-33.33%, -66.66%)
+    // 모바일: 세로 스크롤 (기존과 동일)
     tl.to({}, { duration: 0.3 })
       .to(horizontalItems.value, {
         yPercent: -33.33,
@@ -326,8 +323,7 @@ const initAnimations = async () => {
 
   // 이모지 parallax 효과
   if (isDesktop) {
-    // 데스크톱: 가로 방향 parallax
-    // 첫 번째 섹션 이모지들
+    // 데스크톱 parallax (기존과 동일)
     firstSectionEmojis.forEach((emoji, index) => {
       const parallaxTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
@@ -343,7 +339,6 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(parallaxTrigger)
     })
 
-    // 두 번째 섹션 이모지들
     secondSectionEmojis.forEach((emoji, index) => {
       const parallaxTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
@@ -370,7 +365,6 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(parallaxTrigger)
     })
 
-    // 세 번째 섹션 이모지들
     thirdSectionEmojis.forEach((emoji, index) => {
       const parallaxTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
@@ -389,112 +383,74 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(parallaxTrigger)
     })
   } else {
-    // 모바일: 스크롤 방향에 따른 등장 효과
-    // 첫 번째 섹션 이모지들
-    firstSectionEmojis.forEach((emoji, index) => {
-      // 초기 위치를 아래쪽으로 설정
-      gsap.set(emoji, { y: 100 })
+    // 모바일: 단순한 위치 변화만 (투명도 제거)
+    
+    // 첫 번째 섹션 - 간단한 이동 효과
+    if (firstSectionEmojis.length > 0) {
+      gsap.set(firstSectionEmojis, { y: 50 })
       
-      const parallaxTrigger = ScrollTrigger.create({
+      const firstTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
         start: "top top",
         end: "+=100%",
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress
-          const direction = self.direction // 1: 아래로, -1: 위로
-          
-          if (direction === 1) {
-            // 아래로 스크롤: 아래에서 위로 등장
-            const moveY = 100 - (progress * (130 + index * 20))
-            gsap.set(emoji, { y: moveY })
-          } else {
-            // 위로 스크롤: 위에서 아래로 등장  
-            const moveY = -100 + (progress * (130 + index * 20))
-            gsap.set(emoji, { y: moveY })
-          }
+          gsap.set(firstSectionEmojis, { 
+            y: 50 - (progress * 50)
+          })
         }
       })
-      emojiScrollTriggers.push(parallaxTrigger)
-    })
+      emojiScrollTriggers.push(firstTrigger)
+    }
 
-    // 두 번째 섹션 이모지들
-    secondSectionEmojis.forEach((emoji, index) => {
-      gsap.set(emoji, { y: 100 })
+    // 두 번째 섹션 - 중간 단계에서 등장
+    if (secondSectionEmojis.length > 0) {
+      gsap.set(secondSectionEmojis, { y: 50 })
       
-      const parallaxTrigger = ScrollTrigger.create({
+      const secondTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
         start: "top top",
         end: "+=250%",
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress
-          const direction = self.direction
-          let moveY = 100
-
-          if (progress <= 0.4) {
-            const localProgress = progress / 0.4
-            if (direction === 1) {
-              // 아래로 스크롤: 아래에서 위로
-              moveY = 100 - (localProgress * (125 + index * 15))
-            } else {
-              // 위로 스크롤: 위에서 아래로
-              moveY = -100 + (localProgress * (125 + index * 15))
-            }
-          } else if (progress >= 0.6) {
-            const localProgress = (progress - 0.6) / 0.4
-            const baseMove = direction === 1 ? (100 - (125 + index * 15)) : (-100 + (125 + index * 15))
-            if (direction === 1) {
-              moveY = baseMove - (localProgress * (140 + index * 25))
-            } else {
-              moveY = baseMove + (localProgress * (140 + index * 25))
-            }
-          } else {
-            // 중간 정지 구간
-            if (direction === 1) {
-              moveY = 100 - (125 + index * 15)
-            } else {
-              moveY = -100 + (125 + index * 15)
-            }
+          let yPos = 50
+          
+          if (progress >= 0.3 && progress <= 0.7) {
+            const localProgress = (progress - 0.3) / 0.4
+            yPos = 50 - (localProgress * 50)
+          } else if (progress > 0.7) {
+            yPos = 0
           }
-
-          gsap.set(emoji, { y: moveY })
+          
+          gsap.set(secondSectionEmojis, { y: yPos })
         }
       })
-      emojiScrollTriggers.push(parallaxTrigger)
-    })
+      emojiScrollTriggers.push(secondTrigger)
+    }
 
-    // 세 번째 섹션 이모지들 - 핀이 풀린 후에도 자연스럽게 유지
-    thirdSectionEmojis.forEach((emoji, index) => {
-      gsap.set(emoji, { y: 100 })
+    // 세 번째 섹션 - 마지막에 등장
+    if (thirdSectionEmojis.length > 0) {
+      gsap.set(thirdSectionEmojis, { y: 50 })
       
-      // 핀 구간 전체를 감지하는 ScrollTrigger (핀 영역 + 추가 영역)
-      const parallaxTrigger = ScrollTrigger.create({
+      const thirdTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
         start: "top top",
-        end: "+=400%", // 핀 구간보다 더 길게 설정
+        end: "+=400%",
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress
-          const direction = self.direction
           
-          if (progress >= 0.375) { // 0.6 * 250/400 = 0.375로 조정
-            const adjustedProgress = progress >= 0.625 ? 1 : (progress - 0.375) / 0.25 // 0.625 = 1 * 250/400
-            
-            if (direction === 1) {
-              // 아래로 스크롤: 아래에서 위로 등장하고 최종 위치 유지
-              const moveY = 100 - (adjustedProgress * (150 + index * 30))
-              gsap.set(emoji, { y: moveY })
-            } else {
-              // 위로 스크롤: 위에서 아래로 등장
-              const moveY = -100 + (adjustedProgress * (150 + index * 30))
-              gsap.set(emoji, { y: moveY })
-            }
+          if (progress >= 0.5) {
+            const localProgress = Math.min((progress - 0.5) / 0.3, 1)
+            const yPos = 50 - (localProgress * 50)
+            gsap.set(thirdSectionEmojis, { y: yPos })
           }
         }
       })
-      emojiScrollTriggers.push(parallaxTrigger)
-    })
+      emojiScrollTriggers.push(thirdTrigger)
+    }
   }
 
   // 아래 섹션 등장
@@ -543,7 +499,6 @@ onMounted(async () => {
 
   window.addEventListener('resize', handleResize)
 
-  // cleanup 함수에서 이벤트 리스너 제거
   onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
     killAllAnimations()

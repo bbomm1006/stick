@@ -364,6 +364,10 @@
     .page_tasteButtons{
         display: flex;
         gap: .8rem;
+        @media screen and (max-width: 700px) {
+            margin-bottom: 2.4rem;
+            gap: .6rem;
+        }
     }
     .page_tasteButton{
         color: rgba(0,0,0,.5);
@@ -583,18 +587,27 @@
     .page_benefitTitle{
         font-size: clamp(1.6rem,1.7578vw,2rem);
         @media screen and (max-width: 700px) {
-            line-height:150%
+            line-height:150%;
+            word-break: keep-all;
         }
     }
     .page_benefitDesc{
         color: #555;
         margin-top: .4rem;
+        @media screen and (max-width: 1366px) {
+            font-size:clamp(1.3rem,1.4648vw,1.7rem);
+            margin-top: .5rem
+        }
         @media screen and (max-width: 1024px) {
             width:75%;
-            white-space: normal
+            white-space: normal;
+            br{
+                display: none;
+            }
         }
         @media screen and (max-width: 700px) {
-            width:100%
+            width:100%;
+            word-break: keep-all;
         }
     }
 }

@@ -54,10 +54,7 @@
 
         .page_moreProductsSwiper {
             padding-left: 5.5vw;
-            padding-right: 5.5vw;
-            // .swiper{
-            //     overflow: visible;
-            // }
+            padding-right: 5.5vw;            
         }
 
         .page_moreProductsSlide {
@@ -137,8 +134,12 @@
         }
 
         .page_moreProductsSwiper {
-            padding-left: 5.5vw;
-            padding-right: 5.5vw
+            padding-left: 0;
+            padding-right: 0;
+            .swiper{
+                padding-left: 5.5vw;
+                padding-right: 5.5vw;
+            }
         }
 
         .page_moreProductsSlide {
