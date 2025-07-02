@@ -163,25 +163,21 @@
     }
     .pink{
         position: absolute;        
-        // left: -10%;
         &_in{
             transform: translateY(40px);
-            // transform: rotate(-20deg) translateY(40px);
-        }
-        &_cover{
-            // transform: rotate(-20deg);
         }
         &_top{
             top: 2px;
-            // transform: rotate(-20deg);
-            // left: -20%;
-            // transform: rotate(20deg);
-            // top: -15%;
-            // left: -15%;
         }
     }
-    .pinkwrap{
-        
+    
+    @media screen and (max-width: 700px) {
+        img{
+            width: 12vw;
+        }
+        .grrenwrap,.pinkwrap{
+            top: calc(78% + 90px);
+        }
     }
 }
 
@@ -257,13 +253,31 @@
     white-space: pre-line;
     opacity: 0;
     transform: translateY(100px);
+    @media screen and (max-width: 700px) {
+        padding-top:.8rem
+    }
 }
 
 .page_productDescriptions{
     opacity: 0;
     transform: translateY(100px);
     margin-top: 2.4rem;
-    color: #555
+    color: #555;
+
+    @media screen and (max-width: 1366px) {
+        letter-spacing:-.16px
+    }
+    @media screen and (max-width: 1024px) {
+        line-height:1.65;
+        letter-spacing: -.44px
+    }
+    @media screen and (max-width: 700px) {
+        margin-top:0;
+        padding-top: 0;
+        line-height: 1.65;
+        letter-spacing: -.32px;
+        color: #242424
+    }
 }
 
 .page_introductions{
@@ -279,15 +293,30 @@
     .page_productNameSubtitle {
         font-size: 5.2rem;
         color:#222;
+        @media screen and (max-width: 700px) {
+            font-size:2.8rem
+        }
     }
     .page_productNameTitle{
         font-size: 6.4rem;
         color: var.$main-color;
         line-height: 120%;
         letter-spacing: -.128rem;
-    }
 
-    
+        @media screen and (max-width: 1366px) {
+            line-height:1.1;
+            letter-spacing: -1px
+        }
+        @media screen and (max-width: 1024px) {
+            line-height:1.15;
+            letter-spacing: -1.44px
+        }
+        @media screen and (max-width: 700px) {
+            font-size:4rem;
+            line-height: 1.15;
+            letter-spacing: -.96px
+        }
+    }    
     .page_typeButtons {
         display: flex;
         padding: .4rem;
@@ -326,12 +355,10 @@
             color: #fff
         }
     }
-
     .page_tasteButtons{
         display: flex;
         gap: .8rem;
     }
-
     .page_tasteButton{
         color: rgba(0,0,0,.5);
         font-size: 1.4rem;
@@ -385,8 +412,7 @@
           
         }
 
-    }    
-
+    }  
     .page_buttonGroups {
         display: flex;
         align-items: center;
@@ -399,6 +425,17 @@
             gap: .8rem;
             margin-bottom: 0
         }        
+    }
+
+    @media screen and (max-width: 1024px) {
+        width:100%;
+        height: 68%
+    }
+
+    @media screen and (max-width: 700px) {
+        justify-content:flex-start;
+        white-space: unset;
+        padding-top: 7.2rem
     }
 }
 
