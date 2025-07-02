@@ -489,14 +489,14 @@ onMounted(() => {
 
   // 5단계: 스틱 이미지 회전 + 위치 이동
   tl.to(stick01.value, {
-    rotate: -20,
+    rotate: -15,
     right: '-5%',
     duration: 1,
     ease: 'power2.out',
   }, '+=0.1')
 
   tl.to(stick04.value, {
-    rotate: 20,
+    rotate: 15,
     left: '-5%',
     duration: 1,
     ease: 'power2.out',
