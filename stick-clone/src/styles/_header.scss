@@ -22,9 +22,16 @@
         width: 17rem;
         height: 5.3rem;
         pointer-events: all;
+        .logo-mobile--sub{display:none}
+
         @media screen and (max-width: 1366px) {
             width:12.8rem;
             height: 4rem
+        }
+
+        @media screen and (max-width: 1024px) {
+            .logo--sub{display:none}
+            .logo-mobile--sub{display:block}
         }
 
         @media screen and (max-width: 700px) {

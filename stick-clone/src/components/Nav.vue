@@ -8,6 +8,19 @@
             <div class="page_productNavHeader">상쾌환<span>스틱</span></div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
         </div>
+        <div class="page_mobileProductNavMenu dropdown--open">
+          <div class="page_mobileNavHeader">
+            제품소개 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
+          </div>
+          <div class="page_dropdownLists">
+            <div class="page_dropdownList">상쾌환 스틱</div>
+            <div class="page_dropdownList">제품소개</div>
+            <div class="page_dropdownList">포인트</div>
+            <div class="page_dropdownList">원료정보</div>
+            <div class="page_dropdownList">제품기본정보</div>
+          </div>
+      </div>
         <ul class="page_productNavMenu">
             <li :class="['page_scrollToTop page_active', { page_active: activeSection === 'top' }]">상쾌환 스틱</li>
             <li :class="['page_scrollToIntroduction', { page_active: activeSection === 'introduction' }]">제품소개</li>
