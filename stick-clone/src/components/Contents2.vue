@@ -1,5 +1,16 @@
 <template>
     <div class="page_pinContainer">
+
+        <div class="page_packetBoxsWrap inWrap">
+          <div class="grid-m page_packetBoxs">
+            <div class="page_packetBox" >
+              <div class="packetBox">
+                <img src="/images/stick_box.jpg" alt="" class="box"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div>
             <div class="page_horizontalScroll" ref="horizontalScroll">
                 <div class="page_horizontalSticky" ref="horizontalSticky">
@@ -103,6 +114,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="stickWrapping">
+                      <div class="stickWrap" >
+                        <img src="/images/stick.png" alt="" class="stick"/>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,8 +182,14 @@
             </div>
         </div>
 
-        <div class="grid-m page_packetBoxs">
-          <div class="page_packetBox" ><img src="/images/stick_box.jpg" alt=""/></div>
+        <div class="page_packetBoxsWrap coverWrap">
+          <div class="grid-m page_packetBoxs">
+            <div class="page_packetBox" >
+              <div class="packetBox">
+                <img src="/images/stick_box_cover.png" alt="" class="cover"/>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
 </template>
