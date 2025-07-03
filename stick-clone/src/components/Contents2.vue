@@ -181,6 +181,7 @@ const horizontalSticky = ref(null)
 const horizontalItems = ref(null)
 const keyword1_0 = ref(null)
 const keyword2_0 = ref(null)
+const ingredients = ref(null)
 
 let scrollTriggerInstance = null
 let keywordAnimations = []
@@ -457,13 +458,13 @@ const initAnimations = async () => {
     }
   }
 
-  // 아래 섹션 등장
+  // 아래 섹션 등장 (기존 애니메이션 유지 + 모바일 전용 스크롤 기반 슬라이드 애니메이션)
   gsap.set([".page_ingredientDescriptions", ".page_ingredients"], {
     opacity: 0,
     y: 100
   })
 
-  gsap.timeline({
+  const ingredientsTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".page_ingredientsCtn",
       start: "top 80%",
@@ -471,6 +472,9 @@ const initAnimations = async () => {
       once: true
     }
   })
+
+  // 기존 애니메이션 (모든 화면 크기에서 동일)
+  ingredientsTimeline
     .to(".page_ingredientDescriptions", {
       opacity: 1,
       y: 0,
@@ -483,6 +487,44 @@ const initAnimations = async () => {
       duration: 0.8,
       ease: "power2.out"
     }, 0.2)
+
+  // 1024px 미만일 때만 스크롤 기반 왼쪽 슬라이드 애니메이션
+  if (window.innerWidth < 1024 && ingredients.value) {
+    // 실제 콘텐츠 크기 계산
+    const container = ingredients.value.parentElement
+    const containerWidth = container.offsetWidth
+    
+    // 실제 콘텐츠 크기: 5.75rem * 6개 + 1.6rem gap * 5개 + 추가 여백
+    const remToPx = parseFloat(getComputedStyle(document.documentElement).fontSize)
+    const itemWidth = 5.75 * remToPx
+    const gapWidth = 1.6 * remToPx
+    const totalContentWidth = (itemWidth * 6) + (gapWidth * 5)
+    
+    // 마지막 아이템까지 완전히 보이도록 추가 여백 계산
+    const additionalMargin = itemWidth * 1.6 // 마지막 아이템의 20% 정도 여백
+    
+    // 넘친 부분이 있을 경우에만 스크롤 트리거 생성
+    if (totalContentWidth > containerWidth) {
+      // 마지막 아이템까지 완전히 보이도록 이동 거리 계산
+      const moveDistance = -(totalContentWidth - containerWidth + additionalMargin)
+      
+      ScrollTrigger.create({
+        trigger: ".page_ingredientsCtn",
+        start: "top 30%",
+        end: "bottom 10%",
+        scrub: 0.2,
+        onUpdate: (self) => {
+          const progress = self.progress
+          // 스크롤 진행에 따라 y는 0 유지, x만 변경
+          const xPos = progress * moveDistance
+          gsap.set(ingredients.value, { 
+            x: xPos,
+            y: 0 // y는 항상 0으로 유지
+          })
+        }
+      })
+    }
+  }
 
   setTimeout(() => {
     ScrollTrigger.refresh()
@@ -513,7 +555,6 @@ onUnmounted(() => {
   killAllAnimations()
 })
 </script>
-
 
 
 <style lang="scss" scoped>

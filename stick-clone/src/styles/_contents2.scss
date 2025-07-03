@@ -178,7 +178,7 @@
 
         margin-top: 0;
         // padding-top: 0;
-        padding-bottom: 15rem;
+        padding-bottom: 7rem;
         br{
             display: none;
         }
@@ -581,5 +581,16 @@
         width: 50%;
         height: 100%;
         align-items: center;
+    }
+    @media screen and (max-width: 1024px) {
+        position: relative;
+        bottom: auto;
+        right:auto;
+        display: block;
+        height: auto;
+        padding-bottom: 15rem;
+        .page_packetBox{
+            width: 100%;
+        }
     }
 }
