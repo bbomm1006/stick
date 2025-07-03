@@ -111,27 +111,21 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from '@studio-freight/lenis'
 
-// GSAP ScrollTrigger 플러그인 등록
 gsap.registerPlugin(ScrollTrigger)
 
-// 요소 참조용
 const packetView = ref(null)
 const packetWrap = ref(null)
 const stick01 = ref(null)
 const stick04 = ref(null)
 
 onMounted(() => {
-  // 화면 크기 체크 함수
   const isDesktop = () => window.innerWidth >= 1024
 
-  // 스크롤 애니메이션 설정 함수를 먼저 정의
   function setupScrollAnimations() {
     console.log('setupScrollAnimations 함수 실행됨!')
 
     ScrollTrigger.refresh()
-    //   document.body.style.height = '300vh'
 
-    // ✅ 초기 상태 설정 (반응형)
     gsap.set([
       '.page_blueBox',
       '.page_stickBox img',
@@ -167,19 +161,17 @@ onMounted(() => {
           }
     )
 
-    // ✅ 1단계: clipPathContainer 애니메이션 (반응형)
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom center',
       end: 'bottom+=300px center',
       scrub: 1,
-      //markers: true,
       id: '1단계',
       animation: gsap.timeline()
         .to('.page_clipPathContainer', {
           clipPath: isDesktop() 
-            ? 'polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)' // 데스크톱: 좌측에서 우측으로
-            : 'polygon(0% 68%, 100% 68%, 100% 100%, 0% 100%)', // 모바일: 위에서 아래로 작아짐 (아래쪽만 보임)
+            ? 'polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)'
+            : 'polygon(0% 68%, 100% 68%, 100% 100%, 0% 100%)',
           ease: 'none'
         })
         .to('.page_clipPathContainer .masking-text', {
@@ -188,13 +180,11 @@ onMounted(() => {
         }, 0)
     })
 
-    // ✅ 2단계: packetView 사라지고 stickBox + 제품 설명 등장
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=300px center',
       end: 'bottom+=500px center',
       scrub: 1,
-      //markers: true,
       id: '2단계',
       onUpdate: (self) => {
         if (self.progress > 0.5) {
@@ -245,13 +235,11 @@ onMounted(() => {
         }, 0.2)
     })
 
-    // ✅ 3단계: blueBox transform (반응형)
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=500px center',
       end: 'bottom+=1200px center',
       scrub: 1,
-      //markers: true,
       id: '3단계',
       animation: gsap.timeline()
         .to('.page_blueBox', 
@@ -277,13 +265,11 @@ onMounted(() => {
               }, 0)
     })
 
-    // ✅ 3단계: 기존 콘텐츠 자연스럽게 사라짐
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=600px center',
       end: 'bottom+=1200px center',
       scrub: true,
-      //markers: true,
       id: '3단계-사라짐',
       animation: gsap.timeline()
         .to('.page_stickBox img', {
@@ -308,13 +294,11 @@ onMounted(() => {
         }, 0.1)
     })
 
-    // ✅ 4단계: 새로운 콘텐츠 등장
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=950px center',
       end: 'bottom+=1250px center',
       scrub: true,
-      //markers: true,
       id: '4단계',
       animation: gsap.timeline()
         .fromTo('.page_benefitsDescriptions', {
@@ -339,16 +323,13 @@ onMounted(() => {
           opacity: 1,
           ease: 'none'
         }, 0)
-        
     })
 
-    // ✅ 4.5단계: 스틱 등장
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=950px center',
       end: 'bottom+=1250px center',
       scrub: true,
-      //markers: true,
       id: '4단계',
       animation: gsap.timeline()
         .to('.page_packetView_r .pink_in', {
@@ -365,16 +346,13 @@ onMounted(() => {
           top: "2px",
           left: "-20%",
         }, 0),    
-        
     })
 
-    // ✅ 5단계: 스틱 등장 + page_benefits 슬라이드 (모바일만)
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=1250px center',
       end: 'bottom+=1500px center',
       scrub: true,
-      //markers: true,
       id: '5단계',
       animation: gsap.timeline()
         .to('.page_packetView_r .pink_in', {
@@ -391,36 +369,36 @@ onMounted(() => {
         }, 0)
         .to('.page_benefits', {
           x: () => {
-            // 1024px 미만에서만 슬라이드 효과 적용
             if (window.innerWidth < 1024) {
               const benefitsElement = document.querySelector('.page_benefits');
-              const containerWidth = window.innerWidth;
               const benefitsWidth = benefitsElement.scrollWidth;
-              
-              // 전체 콘텐츠 너비 대비 %로 계산
-              const movePercentage = 70; // 70% 이동 (조정 가능)
+              const movePercentage = 70;
               const translateX = -(benefitsWidth * movePercentage / 100);
-              
-              console.log('containerWidth:', containerWidth);
-              console.log('benefitsWidth:', benefitsWidth);
-              console.log('movePercentage:', movePercentage + '%');
-              console.log('translateX:', translateX);
-              
               return translateX;
             }
-            return 0; // 데스크톱에서는 이동 없음
+            return 0;
           },
           ease: 'none'
         }, 0)
     })
-    
+
+    // ✅ Sticky Container 사라짐 (모든 애니메이션 후)
+    ScrollTrigger.create({
+      trigger: '.page_stickyItem',
+      start: isDesktop() ? 'bottom+=2400px center' : 'bottom+=1900px center', //피시 : 모바일
+      end: isDesktop() ? 'bottom+=3000px center' : 'bottom+=2200px center',
+      scrub: true,
+      animation: gsap.to('.page_stickyContainer', {
+        opacity: 0,
+        ease: 'none'
+      })
+    })
+
   }
 
-  // ▶ 스크롤 막기
   document.documentElement.classList.add('no-scroll')
   document.body.classList.add('no-scroll')
 
-  // Lenis 스무스 스크롤
   const lenis = new Lenis({
     duration: 1.2,
     smooth: true,
@@ -433,46 +411,38 @@ onMounted(() => {
   }
   requestAnimationFrame(raf)
 
-  // 기존 애니메이션 타임라인
   const tl = gsap.timeline({
     onComplete: () => {
-      console.log('기본 애니메이션 완료! 스크롤 애니메이션 시작') // 디버깅용
-      
-      // ▶ 애니메이션 끝나면 스크롤 허용
+      console.log('기본 애니메이션 완료! 스크롤 애니메이션 시작')
       document.documentElement.classList.remove('no-scroll')
       document.body.classList.remove('no-scroll')
-      
-      // 약간의 지연 후 스크롤 애니메이션 설정
+
       setTimeout(() => {
         setupScrollAnimations()
       }, 50)
     }
   })
 
-  // 초기 clipPath 설정 (반응형)
   gsap.set('.page_clipPathContainer', {
     clipPath: isDesktop() 
-      ? 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' // 데스크톱: 아래쪽에서 시작 (높이 0)
-      : 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' // 모바일: 아래쪽에서 시작 (높이 0)
+      ? 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
+      : 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
   })
 
-  // 1단계: .page_masking 등장
   tl.to('.page_masking .masking-text', {
     y: 0,
     duration: 1,
     ease: 'power2.out',
   })
 
-  // 2단계: clipPath 열림 (반응형)
   tl.to('.page_clipPathContainer', {
     clipPath: isDesktop() 
-      ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)' // 데스크톱: 좌측에서 우측으로 완전히 열림
-      : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', // 모바일: 아래에서 위로 완전히 열림
+      ? 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
+      : 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
     duration: 1,
     ease: 'power2.out',
-  }, '+=0.3')  
+  }, '+=0.3')
 
-  // 3단계: masking-text 아래로 사라짐
   tl.to('.page_masking .masking-text', {
     y: 100,
     opacity: 0,
@@ -480,14 +450,12 @@ onMounted(() => {
     ease: 'power2.inOut',
   }, '+=0.1')
 
-  // 4단계: packetWrap 등장
   tl.to(packetWrap.value, {
     y: 0,
     duration: 1,
     ease: 'power3.out',
   })
 
-  // 5단계: 스틱 이미지 회전 + 위치 이동
   tl.to(stick01.value, {
     rotate: -15,
     right: '-5%',
@@ -502,12 +470,14 @@ onMounted(() => {
     ease: 'power2.out',
   }, '<')
 
-  // 화면 크기 변경 시 애니메이션 재설정
   window.addEventListener('resize', () => {
     ScrollTrigger.refresh()
   })
 })
 </script>
+
+
+
 
 <style lang="scss" scoped>
 @use '@/styles/contents1' as *;
