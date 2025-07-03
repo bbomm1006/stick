@@ -758,7 +758,21 @@
     height: auto;
     right: 0;
     bottom: 10%;
-    z-index: -1
+    z-index: -1;
+    &--brand{
+        right: 5%;
+        bottom: 15%;
+    }
+    &--media{
+        right: 10%;
+        bottom: 15%;
+        width: 40%;
+    }
+    &--news{
+        width: 30%;
+        right: 20%;
+        bottom: 20%;
+    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -861,4 +875,16 @@
 .navbar--hide {
     opacity: 0;
     transition: opacity .3s cubic-bezier(.66,.1,.37,.94)
+}
+
+//
+
+@media screen and (max-width: 1024px) {    
+    .offcanvas .category--mobile {
+        display: block!important
+    }
+
+    .offcanvas .category--desktop {
+        display: none!important
+    }
 }

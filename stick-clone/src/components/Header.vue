@@ -36,31 +36,184 @@
         <div class="offcanvas-body ">
             <div class="row categories-row row-50">
                 <div class="col categories">
-                    <div class="category category--mobile false">브랜드</div>
-                    <div class="category category--mobile category--active">제품</div>
-                    <a class="category category--desktop false" href="/kr/about">브랜드</a>
-                    <a class="category category--desktop category--active" href="/kr/product/sangkwaehwan">제품</a>
-                    <a class="category false" href="/kr/media">미디어</a>
-                    <a class="category false" href="/kr/news">뉴스</a>
-                </div>
-                <div class="col">
-                    <div class="subcategories false">
-                        <div class="category-en">BRAND</div>
-                        <a class="subcategory false" href="/kr/about/brand">브랜드 소개</a>
-                        <a class="subcategory false" href="/kr/about/history">히스토리</a>
+                    <!-- 모바일 카테고리 -->
+                    <div 
+                    :class="getCategoryMobileClass('브랜드')"
+                    @click="handleCategoryClick('브랜드')"
+                    >
+                    브랜드
                     </div>
-                    <div class="subcategories subcategories--active">
+                    <div 
+                    :class="getCategoryMobileClass('제품')"
+                    @click="handleCategoryClick('제품')"
+                    >
+                    제품
+                    </div>
+                    
+                    <!-- 데스크톱 카테고리 -->
+                    <a 
+                    :class="getCategoryDesktopClass('브랜드')"
+                    href="/kr/about"
+                    @mouseenter="handleCategoryHover('브랜드')"
+                    >
+                    브랜드
+                    </a>
+                    <a 
+                    :class="getCategoryDesktopClass('제품')"
+                    href="/kr/product/sangkwaehwan"
+                    @mouseenter="handleCategoryHover('제품')"
+                    >
+                    제품
+                    </a>
+                    <a 
+                    :class="getCategoryClass('미디어')"
+                    href="/kr/media"
+                    @mouseenter="handleCategoryHover('미디어')"
+                    >
+                    미디어
+                    </a>
+                    <a 
+                    :class="getCategoryClass('뉴스')"
+                    href="/kr/news"
+                    @mouseenter="handleCategoryHover('뉴스')"
+                    >
+                    뉴스
+                    </a>
+                </div>                
+                <div class="col">
+                    <!-- 브랜드 서브카테고리 -->
+                    <div :class="getSubcategoriesClass('브랜드')">
+                        <div class="category-en">BRAND</div>
+                        <a 
+                            :class="getSubcategoryClass('브랜드 소개')"
+                            href="/kr/about/brand"
+                            @mouseenter="handleSubcategoryHover('브랜드 소개')"
+                            @mouseleave="handleSubcategoryLeave"
+                        >
+                            브랜드 소개
+                        </a>
+                        <a 
+                            :class="getSubcategoryClass('히스토리')"
+                            href="/kr/about/history"
+                            @mouseenter="handleSubcategoryHover('히스토리')"
+                            @mouseleave="handleSubcategoryLeave"
+                        >
+                            히스토리
+                        </a>
+                    </div>
+                    
+                    <!-- 제품 서브카테고리 -->
+                    <div :class="getSubcategoriesClass('제품')">
                         <div class="category-en">PRODUCTS</div>
-                        <a class="subcategory false" href="/kr/product/sangkwaehwan">상쾌환</a>
-                        <a class="subcategory false" href="/kr/product/stick">상쾌환 스틱</a>
-                        <a class="subcategory false" href="/kr/product/booster">상쾌환 BOOSTER</a>
+                        <a 
+                            :class="getSubcategoryClass('상쾌환')"
+                            href="/kr/product/sangkwaehwan"
+                            @mouseenter="handleSubcategoryHover('상쾌환')"
+                            @mouseleave="handleSubcategoryLeave"
+                        >
+                            상쾌환
+                        </a>
+                        <a 
+                            :class="getSubcategoryClass('상쾌환 스틱')"
+                            href="/kr/product/stick"
+                            @mouseenter="handleSubcategoryHover('상쾌환 스틱')"
+                            @mouseleave="handleSubcategoryLeave"
+                        >
+                            상쾌환 스틱
+                        </a>
+                        <a 
+                            :class="getSubcategoryClass('상쾌환 BOOSTER')"
+                            href="/kr/product/booster"
+                            @mouseenter="handleSubcategoryHover('상쾌환 BOOSTER')"
+                            @mouseleave="handleSubcategoryLeave"
+                        >
+                            상쾌환 BOOSTER
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 461 650" class="offcanvas-header-svg offcanvas-header-svg--skyblue"><rect width="379.347" height="856" x="359" y="-69" fill="currentColor" rx="189.673" transform="rotate(30 359 -69)"></rect></svg>
+            <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            fill="none" 
+            viewBox="0 0 461 650" 
+            :class="getSvgClass()"
+            >
+            <rect 
+                width="379.347" 
+                height="856" 
+                x="359" 
+                y="-69" 
+                fill="currentColor" 
+                rx="189.673" 
+                transform="rotate(30 359 -69)"
+            />
+            </svg>
 
-            <img alt="packet" loading="lazy" width="804" height="852" decoding="async" data-nimg="1" class="menu-img menu-img--packet menu-img--active" src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fheader%2Fpacket.png&w=828&q=75" style="color: transparent;">
+            <img 
+                alt="brand" 
+                loading="lazy" 
+                width="804" 
+                height="852" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('brand')"
+                style="color:transparent" 
+                src="/images/brand.png"
+            />
+            <img 
+                alt="packet" 
+                loading="lazy" 
+                width="804" 
+                height="852" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('packet')"
+                src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fheader%2Fpacket.png&w=828&q=75"
+            />
+            <img 
+                alt="stick" 
+                loading="lazy" 
+                width="804" 
+                height="1302" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('stick')"
+                src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fheader%2Fstick.png&amp;w=1920&amp;q=75"
+            />
+            <img 
+                alt="booster" 
+                loading="lazy" 
+                width="804" 
+                height="852" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('booster')"
+                src="https://www.easytomorrow.com/_next/image?url=%2Fcommon%2Fimages%2Fheader%2Fbooster.png&amp;w=1920&amp;q=75"
+            />
+            <img 
+                alt="media" 
+                loading="lazy" 
+                width="804" 
+                height="852" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('media')"
+                style="color:transparent" 
+                src="/images/media.png"
+            />
+            <img 
+                alt="news" 
+                loading="lazy" 
+                width="804" 
+                height="852" 
+                decoding="async" 
+                data-nimg="1" 
+                :class="getMenuImgClass('news')"
+                style="color:transparent" 
+                src="/images/news.png"
+            />
+            
         </div>
         <div class="offcanvas-footer ">
             <div class="offcanvas-footer-links">
@@ -79,13 +232,105 @@
 </div>
 </template>
 
+
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 
 const offcanvasRef = ref(null)
 const overlayRef = ref(null)
+const activeCategory = ref('제품') // 기본값
+const activeSubcategory = ref('상쾌환') // 기본값
+const isDesktop = ref(true)
 
+// 화면 크기 체크
+const checkScreenSize = () => {
+  isDesktop.value = window.innerWidth >= 1024
+}
+
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
+
+// 카테고리 설정
+const categoryConfig = {
+  '브랜드': {
+    svgColor: 'skyblue',
+    menuImg: 'brand'
+  },
+  '제품': {
+    svgColor: 'skyblue',
+    menuImg: 'packet'
+  },
+  '미디어': {
+    svgColor: 'blue',
+    menuImg: 'media'
+  },
+  '뉴스': {
+    svgColor: 'pink',
+    menuImg: 'news'
+  }
+}
+
+// 서브카테고리와 메뉴 이미지 매핑
+const subcategoryImageMap = {
+  '브랜드 소개': 'brand',
+  '히스토리': 'brand',
+  '상쾌환': 'packet',
+  '상쾌환 스틱': 'stick',
+  '상쾌환 BOOSTER': 'booster'
+}
+
+// 이벤트 핸들러
+const handleCategoryHover = (category) => {
+  if (isDesktop.value) {
+    activeCategory.value = category
+    // 카테고리 변경 시 서브카테고리 초기화
+    if (category === '제품') {
+      activeSubcategory.value = '상쾌환'
+    } else if (category === '브랜드') {
+      activeSubcategory.value = '브랜드 소개'
+    } else {
+      activeSubcategory.value = null
+    }
+  }
+}
+
+const handleCategoryClick = (category) => {
+  activeCategory.value = category
+  if (category === '제품') {
+    activeSubcategory.value = '상쾌환'
+  } else if (category === '브랜드') {
+    activeSubcategory.value = '브랜드 소개'
+  } else {
+    activeSubcategory.value = null
+  }
+  if (!isDesktop.value) {
+    openPanel()
+  }
+}
+
+const handleSubcategoryHover = (subcategory) => {
+  activeSubcategory.value = subcategory
+}
+
+const handleSubcategoryLeave = () => {
+  // 서브카테고리에서 마우스가 벗어나면 기본값으로 돌아감
+  if (activeCategory.value === '제품') {
+    activeSubcategory.value = '상쾌환'
+  } else if (activeCategory.value === '브랜드') {
+    activeSubcategory.value = '브랜드 소개'
+  } else {
+    activeSubcategory.value = null
+  }
+}
+
+// 오프캔버스 제어
 const openPanel = () => {
   gsap.to(offcanvasRef.value, {
     x: 0,
@@ -113,8 +358,55 @@ const closePanel = () => {
     pointerEvents: 'none',
   })
 }
-</script>
 
+// 클래스 계산 함수들
+const getCategoryMobileClass = (category) => {
+  const baseClass = 'category category--mobile'
+  return activeCategory.value === category ? `${baseClass} category--active` : `${baseClass} false`
+}
+
+const getCategoryDesktopClass = (category) => {
+  const baseClass = 'category category--desktop'
+  return activeCategory.value === category ? `${baseClass} category--active` : `${baseClass} false`
+}
+
+const getCategoryClass = (category) => {
+  const baseClass = 'category'
+  return activeCategory.value === category ? `${baseClass} category--active` : `${baseClass} false`
+}
+
+const getSubcategoriesClass = (category) => {
+  const baseClass = 'subcategories'
+  return activeCategory.value === category ? `${baseClass} subcategories--active` : `${baseClass} false`
+}
+
+const getSvgClass = () => {
+  const baseClass = 'offcanvas-header-svg'
+  const colorClass = `offcanvas-header-svg--${categoryConfig[activeCategory.value]?.svgColor || 'skyblue'}`
+  return `${baseClass} ${colorClass}`
+}
+
+const getMenuImgClass = (imgType) => {
+  const baseClass = `menu-img menu-img--${imgType}`
+  let isActive = false
+  
+  // 서브카테고리 호버 시 해당 이미지 활성화
+  if (activeSubcategory.value && subcategoryImageMap[activeSubcategory.value] === imgType) {
+    isActive = true
+  }
+  // 서브카테고리가 없을 때는 카테고리 기본 이미지 활성화
+  else if (!activeSubcategory.value && categoryConfig[activeCategory.value]?.menuImg === imgType) {
+    isActive = true
+  }
+  
+  return isActive ? `${baseClass} menu-img--active` : `${baseClass} false`
+}
+
+const getSubcategoryClass = (subcategory) => {
+  const baseClass = 'subcategory'
+  return activeSubcategory.value === subcategory ? `${baseClass} subcategory--active` : `${baseClass} false`
+}
+</script>
 
 
 <style lang="scss" scoped>
