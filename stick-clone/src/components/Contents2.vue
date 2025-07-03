@@ -115,9 +115,9 @@
                         </div>
                     </div>
 
-                    <div class="stickWrapping">
-                      <div class="stickWrap" >
-                        <img src="/images/stick.png" alt="" class="stick"/>
+                    <div class="stickWrapping" ref="stickWrapping" :class="{ fixed: isStickFixed }">
+                      <div class="stickWrap">
+                        <img src="/images/stick.png" alt="" class="stick" ref="stickImage"/>
                       </div>
                     </div>
                 </div>
@@ -206,10 +206,17 @@ const keyword1_0 = ref(null)
 const keyword2_0 = ref(null)
 const ingredients = ref(null)
 
+// 스틱 관련 ref 추가
+const stickWrapping = ref(null)
+const stickImage = ref(null)
+const isStickFixed = ref(false)
+
 let scrollTriggerInstance = null
 let keywordAnimations = []
 let emojiScrollTriggers = []
 let floatingAnimations = []
+let stickScrollTrigger = null // 스틱 스크롤 트리거 추가
+let stickObserver = null // 스틱 관찰자 추가
 let isDesktop = true
 
 const checkScreenSize = () => {
@@ -218,6 +225,8 @@ const checkScreenSize = () => {
 
 const killAllAnimations = () => {
   if (scrollTriggerInstance) scrollTriggerInstance.kill()
+  if (stickScrollTrigger) stickScrollTrigger.kill() // 스틱 트리거 정리
+  if (stickObserver) stickObserver.disconnect() // 스틱 관찰자 정리
   keywordAnimations.forEach(animation => animation.kill())
   emojiScrollTriggers.forEach(trigger => trigger.kill())
   floatingAnimations.forEach(animation => animation.kill())
@@ -230,13 +239,88 @@ const killAllAnimations = () => {
   emojiScrollTriggers = []
   floatingAnimations = []
   scrollTriggerInstance = null
+  stickScrollTrigger = null
+  stickObserver = null
+}
+
+// 스틱 관련 애니메이션 초기화 (수정된 버전)
+const initStickAnimation = () => {
+  if (!stickWrapping.value || !stickImage.value) return
+
+  // IntersectionObserver로 stickWrapping 가시성 감지
+  stickObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        isStickFixed.value = entry.isIntersecting
+      })
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -90% 0px'
+    }
+  )
+  
+  stickObserver.observe(stickWrapping.value)
+
+  // 스크롤에 따른 스틱 회전 + 이동 애니메이션
+  stickScrollTrigger = ScrollTrigger.create({
+    trigger: "body",
+    start: "top top",
+    end: "bottom bottom",
+    scrub: 1,
+    onUpdate: (self) => {
+      const progress = self.progress
+      const rotationValue = progress * 360 * 2.5 // *번 회전
+      
+      // Y축 이동 계산
+      let yMove = 0
+      let finalRotation = rotationValue // 기본적으로는 회전 유지
+      let finalScale = 1 // 기본 스케일
+      
+      // horizontalScroll 섹션의 ScrollTrigger 진행도 확인
+      if (scrollTriggerInstance) {
+        const horizontalProgress = scrollTriggerInstance.progress || 0
+        
+        // horizontalItems의 현재 xPercent 값을 직접 확인
+        const currentXPercent = gsap.getProperty(horizontalItems.value, "xPercent")
+        
+        // -66% 근처에 도달했는지 확인하고, 그 이후 전체 스크롤 진행도에 따라 이동
+        if (currentXPercent <= -60) {
+          // horizontalScroll 섹션이 끝난 후의 전체 스크롤 진행도 계산
+          const horizontalScrollEnd = scrollTriggerInstance.end
+          const currentScrollY = window.pageYOffset || document.documentElement.scrollTop
+          
+          if (currentScrollY > horizontalScrollEnd) {
+            // horizontalScroll 섹션 이후의 스크롤 거리 계산
+            const scrollAfterHorizontal = currentScrollY - horizontalScrollEnd
+            const totalDocumentHeight = document.documentElement.scrollHeight - window.innerHeight
+            const remainingScrollDistance = totalDocumentHeight - horizontalScrollEnd
+            
+            // 남은 스크롤 거리 대비 현재 스크롤 진행도 (속도 3배 증가)
+            const remainingProgress = Math.min((scrollAfterHorizontal / remainingScrollDistance) * 4, 1)
+            yMove = remainingProgress * window.innerHeight * 1.3 // 100vh 아래로 빠르게 이동
+            finalRotation = 0 // 떨어질 때는 회전 멈춤
+            finalScale = 1 - (remainingProgress * 0.3) // 점진적으로 0.7까지 축소
+          }
+        }
+      }
+      
+      gsap.set(stickImage.value, {
+        rotation: finalRotation,
+        scale: finalScale,
+        y: yMove,
+        x: yMove * 0.1, // y 이동량의 10%만큼 x축으로도 이동
+        transformOrigin: "center center",
+        force3D: true
+      })
+    }
+  })
 }
 
 // 이모지 요소들에 GPU 가속 적용
 const enableGPUAcceleration = (elements) => {
   elements.forEach(element => {
     if (element) {
-      // CSS 속성으로 GPU 가속 활성화
       element.style.willChange = 'transform'
       element.style.transform = 'translate3d(0, 0, 0)'
       element.style.backfaceVisibility = 'hidden'
@@ -260,6 +344,9 @@ const disableGPUAcceleration = (elements) => {
 const initAnimations = async () => {
   await nextTick()
   gsap.registerPlugin(ScrollTrigger)
+
+  // 스틱 애니메이션 초기화 추가
+  initStickAnimation()
 
   if (!horizontalScroll.value || !horizontalSticky.value || !horizontalItems.value) {
     console.error('Required elements not found')
@@ -610,7 +697,7 @@ const initAnimations = async () => {
         trigger: ".page_ingredientsCtn",
         start: "top 30%",
         end: "bottom 10%",
-        scrub: 0.5, // 더 부드러운 스크러빙
+        scrub: 0.5,
         refreshPriority: 0,
         onUpdate: (self) => {
           const progress = self.progress
