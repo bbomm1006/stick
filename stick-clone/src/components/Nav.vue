@@ -8,19 +8,31 @@
             <div class="page_productNavHeader">상쾌환<span>스틱</span></div>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
         </div>
-        <div class="page_mobileProductNavMenu dropdown--open">
-          <div class="page_mobileNavHeader">
+        <div class="page_mobileProductNavMenu">
+          <div class="page_mobileNavHeader" @click="toggleDropdown">
             제품소개 
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24"
+              :class="{ 'rotated': isDropdownOpen }"
+            >
+              <rect width="24" height="24" fill="#EBEBEB" rx="12"></rect>
+              <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path>
+            </svg>
           </div>
-          <div class="page_dropdownLists">
+          <div 
+            class="page_dropdownLists" 
+            :class="{ 'open': isDropdownOpen }"
+            ref="dropdownRef"
+          >
             <div class="page_dropdownList">상쾌환 스틱</div>
             <div class="page_dropdownList">제품소개</div>
             <div class="page_dropdownList">포인트</div>
             <div class="page_dropdownList">원료정보</div>
             <div class="page_dropdownList">제품기본정보</div>
           </div>
-      </div>
+        </div>
         <ul class="page_productNavMenu">
             <li :class="['page_scrollToTop page_active', { page_active: activeSection === 'top' }]">상쾌환 스틱</li>
             <li :class="['page_scrollToIntroduction', { page_active: activeSection === 'introduction' }]">제품소개</li>
@@ -34,12 +46,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 
 const scrollPercent = ref(0)
 const isFooterVisible = ref(false)
 const isInitialHidden = ref(true)
-const activeSection = ref('page_scrollToTop') // 현재 활성화된 섹션
+const activeSection = ref('page_scrollToTop')
+
+// 드롭다운 상태
+const isDropdownOpen = ref(false)
+const dropdownRef = ref(null)
 
 const getTransform = () => {
   if (isInitialHidden.value) {
@@ -48,13 +64,48 @@ const getTransform = () => {
   return isFooterVisible.value ? 'translate(0px, 100%)' : 'translate(0px, 0%)'
 }
 
+// 드롭다운 토글
+const toggleDropdown = async () => {
+  isDropdownOpen.value = !isDropdownOpen.value
+
+  await nextTick()
+
+  const headerEl = document.querySelector('.page_mobileNavHeader')
+
+  if (dropdownRef.value) {
+    if (isDropdownOpen.value) {
+      // 드롭다운 열기
+      dropdownRef.value.style.height = 'auto'
+      const height = dropdownRef.value.scrollHeight
+      dropdownRef.value.style.height = '0px'
+
+      requestAnimationFrame(() => {
+        dropdownRef.value.style.height = height + 'px'
+      })
+
+      // 클래스 추가
+      if (headerEl) headerEl.classList.add('dropdown--open')
+    } else {
+      // 드롭다운 닫기
+      const height = dropdownRef.value.scrollHeight
+      dropdownRef.value.style.height = height + 'px'
+
+      requestAnimationFrame(() => {
+        dropdownRef.value.style.height = '0px'
+      })
+
+      // 클래스 제거
+      if (headerEl) headerEl.classList.remove('dropdown--open')
+    }
+  }
+}
+
 const updateScroll = () => {
   const scrollTop = window.scrollY
   const docHeight = document.documentElement.scrollHeight - window.innerHeight
   const percent = (scrollTop / docHeight) * 100
   scrollPercent.value = Math.min(100, Math.max(0, percent))
-  
-  // 활성화된 섹션 확인
+
   updateActiveSection()
 }
 
@@ -62,29 +113,28 @@ const updateActiveSection = () => {
   const scrollTop = window.scrollY
   const docHeight = document.documentElement.scrollHeight - window.innerHeight
   const percent = (scrollTop / docHeight) * 100
-  
-  // 각 섹션의 시작 위치 계산
+
   const horizontalScrollEl = document.querySelector('.page_horizontalScroll')
   const ingredientsCtnEl = document.querySelector('.page_ingredientsCtn')
   const specButtonsEl = document.querySelector('.page_specButtons')
-  
+
   let newActiveSection = 'page_scrollToTop'
-  
+
   if (percent >= 9.04) {
     if (horizontalScrollEl) {
       const horizontalScrollTop = horizontalScrollEl.getBoundingClientRect().top + scrollTop
       const horizontalScrollPercent = (horizontalScrollTop / docHeight) * 100
-      
+
       if (percent >= horizontalScrollPercent) {
         if (ingredientsCtnEl) {
           const ingredientsCtnTop = ingredientsCtnEl.getBoundingClientRect().top + scrollTop
           const ingredientsCtnPercent = (ingredientsCtnTop / docHeight) * 100
-          
+
           if (percent >= ingredientsCtnPercent) {
             if (specButtonsEl) {
               const specButtonsTop = specButtonsEl.getBoundingClientRect().top + scrollTop
               const specButtonsPercent = (specButtonsTop / docHeight) * 100
-              
+
               if (percent >= specButtonsPercent) {
                 newActiveSection = 'page_scrollToSpecs'
               } else {
@@ -106,8 +156,7 @@ const updateActiveSection = () => {
       newActiveSection = 'page_scrollToIntroduction'
     }
   }
-  
-  // 활성화된 섹션이 변경되었을 때만 업데이트
+
   if (activeSection.value !== newActiveSection) {
     activeSection.value = newActiveSection
     updateNavMenu()
@@ -115,62 +164,57 @@ const updateActiveSection = () => {
 }
 
 const updateNavMenu = () => {
-  // 모든 네비게이션 메뉴에서 page_active 클래스 제거
   const navItems = document.querySelectorAll('.page_productNavMenu li')
   navItems.forEach(item => {
     item.classList.remove('page_active')
   })
-  
-  // 현재 활성화된 섹션에 page_active 클래스 추가
+
   const activeItem = document.querySelector(`.page_productNavMenu .${activeSection.value}`)
   if (activeItem) {
     activeItem.classList.add('page_active')
   }
 }
 
-// 네비게이션 클릭 핸들러 추가
 const scrollToSection = (sectionClass) => {
   let targetPosition = 0
-  
+
   switch (sectionClass) {
     case 'page_scrollToTop':
       targetPosition = 0
       break
     case 'page_scrollToIntroduction':
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      targetPosition = docHeight * 0.100569 // 10.0569%
+      targetPosition = docHeight * 0.100569
       break
     case 'page_scrollToHorizontalScroll':
       const horizontalScrollEl = document.querySelector('.page_horizontalScroll')
       if (horizontalScrollEl) {
         const rect = horizontalScrollEl.getBoundingClientRect()
-        targetPosition = rect.top + window.scrollY + 10 // 조정
+        targetPosition = rect.top + window.scrollY + 10
       }
       break
     case 'page_scrollToCards':
       const ingredientsCtnEl = document.querySelector('.page_ingredientsCtn')
       if (ingredientsCtnEl) {
         const rect = ingredientsCtnEl.getBoundingClientRect()
-        targetPosition = rect.top + window.scrollY + 10 // 조정
+        targetPosition = rect.top + window.scrollY + 10
       }
       break
     case 'page_scrollToSpecs':
       const specButtonsEl = document.querySelector('.page_specButtons')
       if (specButtonsEl) {
         const rect = specButtonsEl.getBoundingClientRect()
-        targetPosition = rect.top + window.scrollY + 60 // 조정
+        targetPosition = rect.top + window.scrollY + 60
       }
       break
   }
-  
-  // 부드러운 스크롤 애니메이션
+
   window.scrollTo({
     top: targetPosition,
     behavior: 'smooth'
   })
 }
 
-// 네비게이션 메뉴 클릭 이벤트 설정
 const setupNavigation = () => {
   const navItems = document.querySelectorAll('.page_productNavMenu li')
   navItems.forEach(item => {
@@ -190,15 +234,13 @@ let observer = null
 onMounted(() => {
   window.addEventListener('scroll', updateScroll)
   updateScroll()
-  
-  // 네비게이션 클릭 이벤트 설정
+
   setupNavigation()
-  
-  // *초 후에 네비게이션 표시
+
   setTimeout(() => {
     isInitialHidden.value = false
   }, 1500)
-  
+
   const footer = document.querySelector('footer')
   if (footer) {
     observer = new IntersectionObserver(
