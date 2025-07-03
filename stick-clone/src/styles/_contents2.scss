@@ -66,6 +66,10 @@
         justify-content: center;
         img{
             height: 50%;
+            @media screen and (max-width: 1024px) {
+                width: 10vw;
+                height: auto;
+            }
         }
     }
 
@@ -193,7 +197,7 @@
         width: 100%;
         height: unset;
         padding-top: 27.3rem;
-        padding-bottom: 60.06rem
+        padding-bottom: 20.06rem
     }
     @media screen and (max-width: 700px) {
         padding-top: 10rem;
@@ -628,7 +632,7 @@
     overflow: hidden;
     @media screen and (max-width: 1024px) {
         &.inWrap{
-            
+            top: 2%;
         }
         &.coverWrap{
             position: relative;
@@ -644,6 +648,11 @@
                 display: block;
                 height: auto;
             }
+        }
+    }
+    @media screen and (max-width: 700px) {
+        &.inWrap{
+            top: 1%;
         }
     }
 }

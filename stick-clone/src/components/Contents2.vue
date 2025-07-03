@@ -262,6 +262,7 @@ const initStickAnimation = () => {
   
   stickObserver.observe(stickWrapping.value)
 
+  
   // 스크롤에 따른 스틱 회전 + 이동 애니메이션
   stickScrollTrigger = ScrollTrigger.create({
     trigger: "body",
@@ -277,30 +278,47 @@ const initStickAnimation = () => {
       let finalRotation = rotationValue // 기본적으로는 회전 유지
       let finalScale = 1 // 기본 스케일
       
-      // horizontalScroll 섹션의 ScrollTrigger 진행도 확인
-      if (scrollTriggerInstance) {
-        const horizontalProgress = scrollTriggerInstance.progress || 0
-        
-        // horizontalItems의 현재 xPercent 값을 직접 확인
-        const currentXPercent = gsap.getProperty(horizontalItems.value, "xPercent")
-        
-        // -66% 근처에 도달했는지 확인하고, 그 이후 전체 스크롤 진행도에 따라 이동
-        if (currentXPercent <= -60) {
-          // horizontalScroll 섹션이 끝난 후의 전체 스크롤 진행도 계산
-          const horizontalScrollEnd = scrollTriggerInstance.end
-          const currentScrollY = window.pageYOffset || document.documentElement.scrollTop
+      // 화면 크기 확인
+      const isMobile = window.innerWidth < 1024
+      let xMove = 0
+      
+      // 모바일과 데스크톱 분기 처리
+      if (isMobile) {
+        // 모바일: 전체 스크롤 진행도 기준으로 처리
+        if (progress > 0.6) { // 60% 이후부터 떨어지기 시작
+          const fallProgress = Math.min(((progress - 0.6) / 0.4) * 4, 1) // 모바일에서 6배 빠르게
+          yMove = fallProgress * window.innerHeight * 1.8
+          xMove = yMove * -0.08 // y 이동량의 -10%만큼 x축으로 이동
+          finalRotation = 0
+          finalScale = 1 - (fallProgress * 0.3)
+        }
+      } else {
+        // 데스크톱: 기존 로직 유지
+        if (scrollTriggerInstance) {
+          const horizontalProgress = scrollTriggerInstance.progress || 0
           
-          if (currentScrollY > horizontalScrollEnd) {
-            // horizontalScroll 섹션 이후의 스크롤 거리 계산
-            const scrollAfterHorizontal = currentScrollY - horizontalScrollEnd
-            const totalDocumentHeight = document.documentElement.scrollHeight - window.innerHeight
-            const remainingScrollDistance = totalDocumentHeight - horizontalScrollEnd
+          // horizontalItems의 현재 xPercent 값을 직접 확인
+          const currentXPercent = gsap.getProperty(horizontalItems.value, "xPercent")
+          
+          // -66% 근처에 도달했는지 확인하고, 그 이후 전체 스크롤 진행도에 따라 이동
+          if (currentXPercent <= -60) {
+            // horizontalScroll 섹션이 끝난 후의 전체 스크롤 진행도 계산
+            const horizontalScrollEnd = scrollTriggerInstance.end
+            const currentScrollY = window.pageYOffset || document.documentElement.scrollTop
             
-            // 남은 스크롤 거리 대비 현재 스크롤 진행도 (속도 3배 증가)
-            const remainingProgress = Math.min((scrollAfterHorizontal / remainingScrollDistance) * 4, 1)
-            yMove = remainingProgress * window.innerHeight * 1.3 // 100vh 아래로 빠르게 이동
-            finalRotation = 0 // 떨어질 때는 회전 멈춤
-            finalScale = 1 - (remainingProgress * 0.3) // 점진적으로 0.7까지 축소
+            if (currentScrollY > horizontalScrollEnd) {
+              // horizontalScroll 섹션 이후의 스크롤 거리 계산
+              const scrollAfterHorizontal = currentScrollY - horizontalScrollEnd
+              const totalDocumentHeight = document.documentElement.scrollHeight - window.innerHeight
+              const remainingScrollDistance = totalDocumentHeight - horizontalScrollEnd
+              
+              // 남은 스크롤 거리 대비 현재 스크롤 진행도 (속도 3배 증가)
+              const remainingProgress = Math.min((scrollAfterHorizontal / remainingScrollDistance) * 4, 1)
+              yMove = remainingProgress * window.innerHeight * 1.3 // 100vh 아래로 빠르게 이동
+              xMove = yMove * 0.1 // y 이동량의 10%만큼 x축으로 이동
+              finalRotation = 0 // 떨어질 때는 회전 멈춤
+              finalScale = 1 - (remainingProgress * 0.3) // 점진적으로 0.7까지 축소
+            }
           }
         }
       }
@@ -309,12 +327,22 @@ const initStickAnimation = () => {
         rotation: finalRotation,
         scale: finalScale,
         y: yMove,
-        x: yMove * 0.1, // y 이동량의 10%만큼 x축으로도 이동
+        x: xMove,
         transformOrigin: "center center",
         force3D: true
       })
     }
   })
+
+  // 리사이즈 이벤트 추가 (선택사항)
+  const handleResize = () => {
+    if (stickScrollTrigger) {
+      stickScrollTrigger.refresh()
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
+
 }
 
 // 이모지 요소들에 GPU 가속 적용
