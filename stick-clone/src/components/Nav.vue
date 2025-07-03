@@ -10,7 +10,7 @@
         </div>
         <div class="page_mobileProductNavMenu">
           <div class="page_mobileNavHeader" @click="toggleDropdown">
-            제품소개 
+            {{ mobileNavHeaderText }}
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
@@ -26,11 +26,11 @@
             :class="{ 'open': isDropdownOpen }"
             ref="dropdownRef"
           >
-            <div class="page_dropdownList">상쾌환 스틱</div>
-            <div class="page_dropdownList">제품소개</div>
-            <div class="page_dropdownList">포인트</div>
-            <div class="page_dropdownList">원료정보</div>
-            <div class="page_dropdownList">제품기본정보</div>
+            <div class="page_dropdownList" @click="handleDropdownItemClick('상쾌환 스틱')">상쾌환 스틱</div>
+            <div class="page_dropdownList" @click="handleDropdownItemClick('제품소개')">제품소개</div>
+            <div class="page_dropdownList" @click="handleDropdownItemClick('포인트')">포인트</div>
+            <div class="page_dropdownList" @click="handleDropdownItemClick('원료정보')">원료정보</div>
+            <div class="page_dropdownList" @click="handleDropdownItemClick('제품기본정보')">제품기본정보</div>
           </div>
         </div>
         <ul class="page_productNavMenu">
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 
 const scrollPercent = ref(0)
 const isFooterVisible = ref(false)
@@ -56,6 +56,28 @@ const activeSection = ref('page_scrollToTop')
 // 드롭다운 상태
 const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
+
+// 모바일 네비게이션 헤더 텍스트 계산
+const mobileNavHeaderText = computed(() => {
+  const percent = scrollPercent.value
+  
+  if (percent >= 0 && percent <= 12.1064) {
+    return '상쾌환 스틱'
+  } else if (percent > 12.1064) {
+    // 현재 활성 섹션에 따라 텍스트 결정
+    switch (activeSection.value) {
+      case 'page_scrollToHorizontalScroll':
+        return '포인트'
+      case 'page_scrollToCards':
+        return '원료정보'
+      case 'page_scrollToSpecs':
+        return '제품기본정보'
+      default:
+        return '제품소개'
+    }
+  }
+  return '상쾌환 스틱'
+})
 
 const getTransform = () => {
   if (isInitialHidden.value) {
@@ -97,6 +119,42 @@ const toggleDropdown = async () => {
       // 클래스 제거
       if (headerEl) headerEl.classList.remove('dropdown--open')
     }
+  }
+}
+
+// 드롭다운 항목 클릭 시 스크롤 이동
+const handleDropdownItemClick = (itemText) => {
+  // 드롭다운 닫기
+  isDropdownOpen.value = false
+  const headerEl = document.querySelector('.page_mobileNavHeader')
+  if (headerEl) headerEl.classList.remove('dropdown--open')
+  if (dropdownRef.value) {
+    dropdownRef.value.style.height = '0px'
+  }
+
+  // 해당 섹션으로 스크롤
+  let sectionClass = ''
+  
+  switch (itemText) {
+    case '상쾌환 스틱':
+      sectionClass = 'page_scrollToTop'
+      break
+    case '제품소개':
+      sectionClass = 'page_scrollToIntroduction'
+      break
+    case '포인트':
+      sectionClass = 'page_scrollToHorizontalScroll'
+      break
+    case '원료정보':
+      sectionClass = 'page_scrollToCards'
+      break
+    case '제품기본정보':
+      sectionClass = 'page_scrollToSpecs'
+      break
+  }
+  
+  if (sectionClass) {
+    scrollToSection(sectionClass)
   }
 }
 
@@ -184,7 +242,8 @@ const scrollToSection = (sectionClass) => {
       break
     case 'page_scrollToIntroduction':
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      targetPosition = docHeight * 0.100569
+      const isMobile = window.innerWidth < 1024
+      targetPosition = docHeight * (isMobile ? 0.121065 : 0.1005)
       break
     case 'page_scrollToHorizontalScroll':
       const horizontalScrollEl = document.querySelector('.page_horizontalScroll')
