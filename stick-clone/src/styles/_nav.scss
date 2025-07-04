@@ -58,6 +58,9 @@
             width: 2.4rem;
             height: 2.4rem
         }
+        &.dropdown--open svg {
+            transform: rotate(180deg)
+        }
         span{
             color:var.$main-color;
         }
@@ -124,8 +127,36 @@
     }
 }
 
-//모바일
+//피시 드롭박스
+.page_productDropdown{
+    .page_dropdownLists {
+        display: none;
+        flex-direction: column;
+        gap: 1.2rem;
+        position: absolute;
+        top: -8.6rem;
+        background: #ebebeb;
+        border-radius: 2rem;
+        padding: 2.6rem;
+        cursor: pointer;
+        transform-origin: bottom;
+        opacity: 0;
+        transform: scale(.8);
+        will-change: transform,opacity;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        transition: transform 0.3s ease;
+    }
+    .page_dropdownList {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: -.36px;
+        line-height: 1
+    }
+}
 
+//모바일
 .page_mobileProductNavMenu {
     display: none;
     @media screen and (max-width: 1024px) {

@@ -68,12 +68,12 @@
             </div>
         </div>
         <div class="shopping-cart-container">
-            <button class="icon-button shopping-cart">
+            <button class="icon-button shopping-cart" @click="toggleMallLinks">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4m0 0H9.294c-.461 0-.692 0-.882-.082a1 1 0 0 1-.419-.338c-.12-.168-.167-.394-.264-.845L5.271 4.265c-.096-.451-.145-.677-.265-.845a1 1 0 0 0-.418-.338C4.398 3 4.168 3 3.707 3H3m3 3h12.873c.722 0 1.083 0 1.325.15a1 1 0 0 1 .435.579c.077.274-.022.621-.222 1.314l-1.385 4.8c-.12.415-.18.623-.3.776a1 1 0 0 1-.409.307c-.181.074-.397.074-.829.074H7.73M8 21a2 2 0 1 1 0-4 2 2 0 0 1 0 4"></path></svg>
             </button>
             <div class="shopping">
                 <a class="mall-link contact-btn" href="/kr/contact/customer">문의하기</a>
-                <a target="_blank" class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762">온라인 쇼핑몰</a>
+                <a class="mall-link" href="https://smartstore.naver.com/qoneshop/products/10981677762">온라인 쇼핑몰</a>
                 <a class="mall-link" href="https://map.naver.com/p/search/%ED%8E%B8%EC%9D%98%EC%A0%90">오프라인 쇼핑몰</a>
             </div>
         </div>
@@ -144,13 +144,16 @@ export default {
       lottieAnimation1: null,
       lottieAnimation2: null,
       scrollY: 0,
-      isHovered: false // 마우스 오버 상태 추가
+      isHovered: false, // 마우스 오버 상태 추가
+      isMallLinkVisible: false // mall-link 토글 상태
     };
   },
   mounted() {
     this.setupFooterObserver();
     this.setupScrollListener();
-    
+
+    document.addEventListener('click', this.handleClickOutside); // 외부 클릭 감지
+
     // DOM 완전 렌더링 후 Lottie 로드
     this.$nextTick(() => {
       this.shouldLoadLottie = true;
@@ -171,18 +174,70 @@ export default {
     if (this.lottieAnimation2) {
       this.lottieAnimation2.destroy();
     }
-    // 스크롤 리스너 제거
     window.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
-    // 마우스 오버 이벤트 핸들러 추가
+    // 🛒 쇼핑카트 버튼 클릭 시 mall-link 스타일 토글
+    toggleMallLinks(event) {
+      event.stopPropagation();
+      this.isMallLinkVisible = !this.isMallLinkVisible;
+
+      const links = document.querySelectorAll('.shopping .mall-link');
+      const cartBtn = document.querySelector('button.shopping-cart');
+
+      links.forEach(link => {
+        if (this.isMallLinkVisible) {
+          link.style.opacity = '1';
+          link.style.transform = 'translate(0px, 0px)';
+          link.style.pointerEvents = 'auto';
+        } else {
+          link.style.opacity = '0';
+          link.style.transform = 'translateY(30px)';
+          link.style.pointerEvents = 'none';
+        }
+      });
+
+      if (cartBtn) {
+        cartBtn.style.transform = this.isMallLinkVisible ? 'scale(0.5)' : 'scale(1)';
+        cartBtn.style.opacity = this.isMallLinkVisible ? '0' : '1';
+        cartBtn.style.pointerEvents = this.isMallLinkVisible ? 'none' : 'auto';
+      }
+    },
+
+    // 다른 곳 클릭 시 mall-link 숨기기
+    handleClickOutside(event) {
+      const shoppingCartBtn = document.querySelector('.shopping-cart');
+      const shopping = document.querySelector('.shopping');
+
+      if (
+        !shopping.contains(event.target) &&
+        !shoppingCartBtn.contains(event.target)
+      ) {
+        this.isMallLinkVisible = false;
+
+        const links = document.querySelectorAll('.shopping .mall-link');
+        links.forEach(link => {
+          link.style.opacity = '0';
+          link.style.transform = 'translateY(30px)';
+          link.style.pointerEvents = 'none';
+        });
+
+        if (shoppingCartBtn) {
+          shoppingCartBtn.style.opacity = '1';
+          shoppingCartBtn.style.transform = 'scale(1)';
+          shoppingCartBtn.style.pointerEvents = 'auto';
+        }
+      }
+    },
+
     handleMouseEnter() {
       this.isHovered = true;
     },
     handleMouseLeave() {
       this.isHovered = false;
     },
-    
+
     scrollToTop() {
       window.scrollTo({
         top: 0,
@@ -214,28 +269,27 @@ export default {
       console.log('Lottie 애니메이션들 로드 시작');
       console.log('lottieContainer1 ref:', this.$refs.lottieContainer1);
       console.log('lottieContainer2 ref:', this.$refs.lottieContainer2);
-      
+
       // 첫 번째 애니메이션 로드
       this.createLottieAnimation(
-        this.$refs.lottieContainer1, 
-        charAnimation, 
+        this.$refs.lottieContainer1,
+        charAnimation,
         'lottieAnimation1'
       );
-      
+
       // 두 번째 애니메이션 로드
       this.createLottieAnimation(
-        this.$refs.lottieContainer2, 
-        charOnAnimation, 
+        this.$refs.lottieContainer2,
+        charOnAnimation,
         'lottieAnimation2'
       );
     },
     createLottieAnimation(container, animationData, propertyName) {
       try {
-        // 기존 애니메이션이 있다면 제거
         if (this[propertyName]) {
           this[propertyName].destroy();
         }
-        
+
         this[propertyName] = lottie.loadAnimation({
           container: container,
           renderer: 'svg',
@@ -243,7 +297,7 @@ export default {
           autoplay: true,
           animationData: animationData
         });
-        
+
         console.log(`${propertyName} 로드 완료`);
       } catch (error) {
         console.error(`${propertyName} 초기화 에러:`, error);
@@ -252,6 +306,7 @@ export default {
   }
 };
 </script>
+
 
 
 <style lang="scss" scoped>

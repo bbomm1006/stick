@@ -5,8 +5,14 @@
     >
         <div class="page_progressBar" :style="{ width: scrollPercent + '%' }"></div>
         <div class="page_productDropdown">
-            <div class="page_productNavHeader">상쾌환<span>스틱</span></div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
+            <div class="page_productNavHeader">
+              상쾌환<span>스틱</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" fill="#EBEBEB" rx="12"></rect><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 10-5 5-5-5"></path></svg>
+            </div>
+            <div class="page_dropdownLists">
+              <a class="page_dropdownList" href="/kr/product/sangkwaehwan"><span>상쾌환</span></a>
+              <a class="page_dropdownList" href="/kr/product/booster">상쾌환<span> BOOSTER</span></a>
+            </div>
         </div>
         <div class="page_mobileProductNavMenu">
           <div class="page_mobileNavHeader" @click="toggleDropdown">
@@ -56,6 +62,10 @@ const activeSection = ref('page_scrollToTop')
 // 드롭다운 상태
 const isDropdownOpen = ref(false)
 const dropdownRef = ref(null)
+
+// 새로운 드롭다운 상태 (상단 네비게이션용)
+const isProductDropdownOpen = ref(false)
+const productDropdownRef = ref(null)
 
 // 모바일 네비게이션 헤더 텍스트 계산
 const mobileNavHeaderText = computed(() => {
@@ -118,6 +128,48 @@ const toggleDropdown = async () => {
 
       // 클래스 제거
       if (headerEl) headerEl.classList.remove('dropdown--open')
+    }
+  }
+}
+
+// 새로운 상품 드롭다운 토글 함수
+const toggleProductDropdown = async () => {
+  isProductDropdownOpen.value = !isProductDropdownOpen.value
+
+  const productDropdownEl = document.querySelector('.page_productDropdown')
+  const dropdownListsEl = document.querySelector('.page_dropdownLists')
+
+  if (productDropdownEl && dropdownListsEl) {
+    if (isProductDropdownOpen.value) {
+      // 드롭다운 열기
+      productDropdownEl.classList.add('dropdown--open')
+      dropdownListsEl.style.display = 'flex'
+      
+      // 애니메이션을 위해 다음 프레임에서 스타일 적용
+      requestAnimationFrame(() => {
+        dropdownListsEl.style.translate = 'none'
+        dropdownListsEl.style.rotate = 'none'
+        dropdownListsEl.style.scale = 'none'
+        dropdownListsEl.style.opacity = '1'
+        dropdownListsEl.style.transform = 'scale(1) translate(0px, 0px)'
+      })
+    } else {
+      // 드롭다운 닫기
+      productDropdownEl.classList.remove('dropdown--open')
+      dropdownListsEl.style.opacity = '0'
+      dropdownListsEl.style.transform = 'scale(0.8) translate(0px, 0px)'
+      
+      // 애니메이션이 끝난 후 display none
+      setTimeout(() => {
+        if (!isProductDropdownOpen.value) {
+          dropdownListsEl.style.translate = ''
+          dropdownListsEl.style.rotate = ''
+          dropdownListsEl.style.scale = ''
+          dropdownListsEl.style.display = ''
+          dropdownListsEl.style.opacity = ''
+          dropdownListsEl.style.transform = ''
+        }
+      }, 300) // CSS transition 시간과 맞춤
     }
   }
 }
@@ -297,6 +349,17 @@ const setupNavigation = () => {
   })
 }
 
+// 상품 드롭다운 네비게이션 설정
+const setupProductDropdown = () => {
+  const productNavHeader = document.querySelector('.page_productNavHeader')
+  if (productNavHeader) {
+    productNavHeader.addEventListener('click', (e) => {
+      e.preventDefault()
+      toggleProductDropdown()
+    })
+  }
+}
+
 let observer = null
 
 onMounted(() => {
@@ -304,6 +367,7 @@ onMounted(() => {
   updateScroll()
 
   setupNavigation()
+  setupProductDropdown() // 새로운 드롭다운 설정 추가
 
   setTimeout(() => {
     isInitialHidden.value = false
