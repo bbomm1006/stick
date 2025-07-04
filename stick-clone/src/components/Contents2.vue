@@ -271,7 +271,7 @@ const initStickAnimation = () => {
     scrub: 1,
     onUpdate: (self) => {
       const progress = self.progress
-      const rotationValue = progress * 360 * 2.5 // *번 회전
+      const rotationValue = progress * 360 * 3 // *번 회전
       
       // Y축 이동 계산
       let yMove = 0
@@ -315,7 +315,7 @@ const initStickAnimation = () => {
               // 남은 스크롤 거리 대비 현재 스크롤 진행도 (속도 3배 증가)
               const remainingProgress = Math.min((scrollAfterHorizontal / remainingScrollDistance) * 4, 1)
               yMove = remainingProgress * window.innerHeight * 1.3 // 100vh 아래로 빠르게 이동
-              xMove = yMove * 0.1 // y 이동량의 10%만큼 x축으로 이동
+              xMove = yMove * 0.11 // y 이동량의 10%만큼 x축으로 이동
               finalRotation = 0 // 떨어질 때는 회전 멈춤
               finalScale = 1 - (remainingProgress * 0.3) // 점진적으로 0.7까지 축소
             }

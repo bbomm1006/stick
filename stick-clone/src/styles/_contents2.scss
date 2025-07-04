@@ -8,7 +8,11 @@
 /* 가로 */
 .page_horizontalScroll {
     height: 380vh;
-    height: 380dvh
+    height: 380dvh;
+    @media screen and (max-width: 1366px) {
+        height: 340vh;
+        height: 340dvh;
+    }
 }
 .page_horizontalSticky {
     position: -webkit-sticky;
@@ -55,6 +59,7 @@
     align-items: center;
     width: 300%;
     height: 100%;
+    transition: opacity 0.4s ease;
     .stickWrap{
         position: absolute;
         top: 0;
@@ -196,7 +201,7 @@
         justify-content:flex-start;
         width: 100%;
         height: unset;
-        padding-top: 27.3rem;
+        padding-top: 10rem;
         padding-bottom: 20.06rem
     }
     @media screen and (max-width: 700px) {
@@ -592,6 +597,18 @@
                 width: 100%;
             }
             img{
+                // width: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
+    @media screen and (max-width: 700px) {        
+        .page_packetBox{
+            width: 100%;
+            .packetBox{
+                width: 100%;
+            }
+            img{
                 width: 100%;
             }
         }
@@ -608,7 +625,10 @@
     @media screen and (max-width: 1024px) {
         &.inWrap{
             top: auto;
-            bottom: 16.06rem;
+            bottom: 0;
+            .page_packetBox{
+                align-items: flex-end;
+            }
         }
         &.coverWrap{
             position: relative;
@@ -616,7 +636,7 @@
             right:auto;
             display: block;
             height: auto;
-            padding-bottom: 15rem;
+            // padding-bottom: 10rem;
             .page_packetBoxs{
                 position: relative;
                 bottom: auto;
@@ -626,11 +646,15 @@
             }
         }
     }
-    @media screen and (max-width: 768px) {
-        &.inWrap{
-            bottom: -6.06rem;
-        }
-    }
+    // @media screen and (max-width: 768px) {
+    //     &.inWrap{
+    //         bottom: -6.06rem;
+    //     }
+    // }
    
 }
 
+
+.stick-hidden .stickWrapping{
+    opacity: 0;
+}

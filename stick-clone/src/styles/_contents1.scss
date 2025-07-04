@@ -176,6 +176,12 @@
             top: 2px;
         }
     }
+
+    @media screen and (max-width: 1024px) {
+        .grrenwrap,.pinkwrap{
+            top: calc(70% + 90px);
+        }
+    }
     
     @media screen and (max-width: 700px) {
         img{

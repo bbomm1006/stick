@@ -99,8 +99,12 @@
         }
 
         .page_moreProductsSwiper {
-            padding-left: max(4rem,4.6875vw);
-            padding-right: max(4rem,4.6875vw)
+            padding-left: 0;
+            padding-right: 0;
+            .swiper{
+                padding-left: 5.5vw;
+                padding-right: 5.5vw;
+            }
         }
 
         .page_moreProductsSlide {
@@ -114,7 +118,6 @@
         
     }
 
-    
     @media screen and (max-width: 700px) {
         border-radius:40px;
         padding-top: 5rem;
@@ -133,14 +136,7 @@
             margin-right: 5.1282vw
         }
 
-        .page_moreProductsSwiper {
-            padding-left: 0;
-            padding-right: 0;
-            .swiper{
-                padding-left: 5.5vw;
-                padding-right: 5.5vw;
-            }
-        }
+        
 
         .page_moreProductsSlide {
             width: 21rem;

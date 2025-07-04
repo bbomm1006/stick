@@ -219,6 +219,15 @@ const updateActiveSection = () => {
     activeSection.value = newActiveSection
     updateNavMenu()
   }
+
+  // ✅ 스틱 사라지게
+  const body = document.body
+  if (newActiveSection === 'page_scrollToCards') {
+    body.classList.add('stick-hidden')
+  } else {
+    body.classList.remove('stick-hidden')
+  }
+
 }
 
 const updateNavMenu = () => {

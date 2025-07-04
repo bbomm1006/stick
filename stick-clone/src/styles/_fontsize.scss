@@ -137,6 +137,108 @@
     letter-spacing: -.04rem
 }
 
+@media screen and (max-width: 1024px) {
+    .h1,.h2 {
+        font-size:max(5rem,6.25vw)
+    }
+
+    .t1 {
+        font-size: max(2.8rem,3.125vw)
+    }
+
+    .t2,.t3 {
+        font-size: max(2.6rem,3.125vw)
+    }
+
+    .t4 {
+        font-size: max(2.8rem,3.125vw)
+    }
+
+    .t5 {
+        font-size: max(2.6rem,2.9297vw)
+    }
+
+    .t6,.t7 {
+        font-size: max(2rem,2.3438vw)
+    }
+
+    .t8 {
+        font-size: max(1.8rem,2.1484vw)
+    }
+
+    .t10,.t9 {
+        font-size: max(1.6rem,2.1484vw)
+    }
+
+    .b1,.b2 {
+        font-size: max(1.7rem,1.7578vw)
+    }
+
+    .b3 {
+        font-size: max(1.8rem,1.9531vw)
+    }
+
+    .b4,.b5,.cms>div:not(.DPromotion),.cms>p {
+        font-size: 1.6rem
+    }
+
+    .toggle1 {
+        font-size: max(1.2rem,1.3672vw)
+    }
+
+    .tag1 {
+        font-size: max(1.4rem,1.5625vw)
+    }
+
+    .badge,.tag2 {
+        font-size: max(1.2rem,1.3672vw)
+    }
+
+    .date1 {
+        font-size: max(1.4rem,1.5625vw)
+    }
+
+    .product-h1 {
+        font-size: max(17rem,11.9335vw)
+    }
+
+    .product-h2 {
+        font-size: max(13rem,15.625vw)
+    }
+
+    .product-t1 {
+        font-size: max(5.4rem,7.0313vw)
+    }
+
+    .product-t2-b,.product-t2-sb {
+        font-size: max(4.2rem,5.0781vw)
+    }
+
+    .product-t3 {
+        font-size: max(4rem,5.0781vw)
+    }
+
+    .product-t4 {
+        font-size: max(2.6rem,3.125vw)
+    }
+
+    .product-b1 {
+        font-size: max(1.8rem,2.1484vw)
+    }
+
+    .product-b2 {
+        font-size: 1.8rem
+    }
+
+    .product-caption1 {
+        font-size: max(2.2rem,2.5391vw)
+    }
+
+    .product-caption2 {
+        font-size: max(1.6rem,1.7578vw)
+    }
+}
+
 
 @media screen and (max-width: 700px) {
     .h1 {
