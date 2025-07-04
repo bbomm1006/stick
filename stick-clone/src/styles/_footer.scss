@@ -291,7 +291,10 @@
 
 #footer .footer-dropdown {
     width: 22.5rem;
-    height: 4.8rem
+    height: 4.8rem;
+    &.dropdown--open svg {
+        transform: rotate(180deg)
+    }
 }
 
 #footer .footer-dropdown .dropdown-header {
@@ -305,7 +308,9 @@
 }
 
 #footer .footer-dropdown .dropdown-list {
-    bottom: 5.8rem
+    top: auto;
+    bottom: 5.8rem;
+    transition: all 0.3s ease;
 }
 
 @media screen and (max-width: 1366px) {

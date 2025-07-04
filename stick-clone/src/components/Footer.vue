@@ -121,7 +121,6 @@
                         <a target="_blank" href="https://www.samyangcorp.com/kr/food-business/consumption-goods"><div class="dropdown-item ">큐원</div></a>
                         <a target="_blank" href="https://www.serveq.co.kr"><div class="dropdown-item ">서브큐</div></a>
                         <a target="_blank" href="https://www.aboutmeshop.com"><div class="dropdown-item ">어바웃미</div></a>
-                        <a target="_blank" href="https://smartstore.naver.com/qoneshop"><div class="dropdown-item ">큐원 스마트 스토어</div></a>
                     </div>
                 </div>
             </div>
@@ -144,17 +143,22 @@ export default {
       lottieAnimation1: null,
       lottieAnimation2: null,
       scrollY: 0,
-      isHovered: false, // 마우스 오버 상태 추가
-      isMallLinkVisible: false // mall-link 토글 상태
+      isHovered: false,
+      isMallLinkVisible: false,
+      isFooterDropdownOpen: false
     };
   },
   mounted() {
     this.setupFooterObserver();
     this.setupScrollListener();
 
-    document.addEventListener('click', this.handleClickOutside); // 외부 클릭 감지
+    document.addEventListener('click', this.handleClickOutside);
 
-    // DOM 완전 렌더링 후 Lottie 로드
+    const footerHeader = document.querySelector('.footer-dropdown .dropdown-header');
+    if (footerHeader) {
+      footerHeader.addEventListener('click', this.toggleFooterDropdown);
+    }
+
     this.$nextTick(() => {
       this.shouldLoadLottie = true;
       this.$nextTick(() => {
@@ -178,7 +182,6 @@ export default {
     document.removeEventListener('click', this.handleClickOutside);
   },
   methods: {
-    // 🛒 쇼핑카트 버튼 클릭 시 mall-link 스타일 토글
     toggleMallLinks(event) {
       event.stopPropagation();
       this.isMallLinkVisible = !this.isMallLinkVisible;
@@ -205,17 +208,17 @@ export default {
       }
     },
 
-    // 다른 곳 클릭 시 mall-link 숨기기
     handleClickOutside(event) {
       const shoppingCartBtn = document.querySelector('.shopping-cart');
       const shopping = document.querySelector('.shopping');
+      const dropdown = document.querySelector('.footer-dropdown');
+      const dropdownList = dropdown.querySelector('.dropdown-list');
 
       if (
         !shopping.contains(event.target) &&
         !shoppingCartBtn.contains(event.target)
       ) {
         this.isMallLinkVisible = false;
-
         const links = document.querySelectorAll('.shopping .mall-link');
         links.forEach(link => {
           link.style.opacity = '0';
@@ -228,6 +231,47 @@ export default {
           shoppingCartBtn.style.transform = 'scale(1)';
           shoppingCartBtn.style.pointerEvents = 'auto';
         }
+      }
+
+      // footer-dropdown 외부 클릭 시 닫기
+      if (!dropdown.contains(event.target)) {
+        this.isFooterDropdownOpen = false;
+        dropdown.classList.remove('dropdown--open'); // ✅ 추가
+        dropdownList.style.opacity = '0';
+        dropdownList.style.transform = 'translateY(20px) scale(0.98)';
+        dropdownList.style.pointerEvents = 'none';
+        dropdownList.style.display = 'none';
+      }
+
+    },
+
+    toggleFooterDropdown() {
+      const dropdown = document.querySelector('.footer-dropdown');
+      const dropdownList = dropdown.querySelector('.dropdown-list');
+      this.isFooterDropdownOpen = !this.isFooterDropdownOpen;
+
+      dropdownList.style.transition = 'all 0.3s ease';
+
+      if (this.isFooterDropdownOpen) {
+        dropdown.classList.add('dropdown--open'); // ✅ 클래스 추가
+        dropdownList.style.display = 'flex';
+
+        requestAnimationFrame(() => {
+          dropdownList.style.opacity = '1';
+          dropdownList.style.transform = 'translateY(0) scale(1)';
+          dropdownList.style.pointerEvents = 'auto';
+        });
+      } else {
+        dropdown.classList.remove('dropdown--open'); // ✅ 클래스 제거
+        dropdownList.style.opacity = '0';
+        dropdownList.style.transform = 'translateY(20px) scale(0.98)';
+        dropdownList.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          if (!this.isFooterDropdownOpen) {
+            dropdownList.style.display = 'none';
+          }
+        }, 300);
       }
     },
 
@@ -266,18 +310,11 @@ export default {
       window.addEventListener('scroll', this.handleScroll);
     },
     loadLottieAnimations() {
-      console.log('Lottie 애니메이션들 로드 시작');
-      console.log('lottieContainer1 ref:', this.$refs.lottieContainer1);
-      console.log('lottieContainer2 ref:', this.$refs.lottieContainer2);
-
-      // 첫 번째 애니메이션 로드
       this.createLottieAnimation(
         this.$refs.lottieContainer1,
         charAnimation,
         'lottieAnimation1'
       );
-
-      // 두 번째 애니메이션 로드
       this.createLottieAnimation(
         this.$refs.lottieContainer2,
         charOnAnimation,
@@ -297,8 +334,6 @@ export default {
           autoplay: true,
           animationData: animationData
         });
-
-        console.log(`${propertyName} 로드 완료`);
       } catch (error) {
         console.error(`${propertyName} 초기화 에러:`, error);
       }
@@ -306,6 +341,7 @@ export default {
   }
 };
 </script>
+
 
 
 
