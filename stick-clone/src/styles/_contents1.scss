@@ -2,7 +2,10 @@
 
 .page_stickyContainer{
     // height: 480vh
-    height: 400vh
+    height: 400vh;
+    @media screen and (max-width: 1024px) {
+        height: 480dvh
+    }
 }
 
 .page_stickyItem {

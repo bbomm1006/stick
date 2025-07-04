@@ -353,7 +353,7 @@ onMounted(() => {
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
       start: 'bottom+=1450px center',
-      end: 'bottom+=1700px center',
+      end: 'bottom+=2300px center',
       scrub: true,
       id: '5단계',
       animation: gsap.timeline()
@@ -374,8 +374,8 @@ onMounted(() => {
             if (window.innerWidth < 1024) {
               const benefitsElement = document.querySelector('.page_benefits');
               const benefitsWidth = benefitsElement.scrollWidth;
-              const movePercentage = 70;
-              const translateX = -(benefitsWidth * movePercentage / 100);
+              const movePercentage = 60;
+              const translateX = -(benefitsWidth * movePercentage / 90);
               return translateX;
             }
             return 0;
@@ -389,10 +389,10 @@ onMounted(() => {
       trigger: '.page_stickyItem',
       start: isDesktop() ? 'bottom+=2400px center' : 
             isTablet() ? 'bottom+=2550px center' : 
-            'bottom+=1900px center', // 피시 : 태블릿 : 모바일
+            'bottom+=2400px center', // 피시 : 태블릿 : 모바일
       end: isDesktop() ? 'bottom+=3000px center' : 
           isTablet() ? 'bottom+=2850px center' : 
-          'bottom+=2200px center',
+          'bottom+=2800px center',
       scrub: true,
       animation: gsap.to('.page_stickyContainer', {
         opacity: 0,
