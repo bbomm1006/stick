@@ -220,7 +220,7 @@ let stickObserver = null // 스틱 관찰자 추가
 let isDesktop = true
 
 const checkScreenSize = () => {
-  isDesktop = window.innerWidth >= 1024
+  isDesktop = window.innerWidth > 1024
 }
 
 const killAllAnimations = () => {
@@ -383,7 +383,7 @@ const initAnimations = async () => {
 
   checkScreenSize()
   
-  if (window.innerWidth >= 1024) {
+  if (window.innerWidth > 1024) {
     // 초기 위치
     gsap.set(keyword1_0.value, { xPercent: -30 })
     gsap.set(keyword2_0.value, { xPercent: 30 })
@@ -754,7 +754,7 @@ onMounted(async () => {
   const handleResize = () => {
     clearTimeout(resizeTimeout)
     resizeTimeout = setTimeout(() => {
-      const newIsDesktop = window.innerWidth >= 1024
+      const newIsDesktop = window.innerWidth > 1024
       if (newIsDesktop !== isDesktop) {
         // 기존 이모지들의 GPU 가속 해제
         const allEmojis = document.querySelectorAll('.page_emoji')

@@ -119,7 +119,9 @@ const stick01 = ref(null)
 const stick04 = ref(null)
 
 onMounted(() => {
-  const isDesktop = () => window.innerWidth >= 1024
+  const isDesktop = () => window.innerWidth > 1024
+  const isTablet = () => window.innerWidth > 767 && window.innerWidth <= 1024
+  const isMobile = () => window.innerWidth <= 767
 
   function setupScrollAnimations() {
     console.log('setupScrollAnimations 함수 실행됨!')
@@ -382,11 +384,15 @@ onMounted(() => {
         }, 0)
     })
 
-    // ✅ Sticky Container 사라짐 (모든 애니메이션 후)
+    // Sticky Container 사라짐 (모든 애니메이션 후)
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: isDesktop() ? 'bottom+=2400px center' : 'bottom+=1900px center', //피시 : 모바일
-      end: isDesktop() ? 'bottom+=3000px center' : 'bottom+=2200px center',
+      start: isDesktop() ? 'bottom+=2400px center' : 
+            isTablet() ? 'bottom+=2550px center' : 
+            'bottom+=1900px center', // 피시 : 태블릿 : 모바일
+      end: isDesktop() ? 'bottom+=3000px center' : 
+          isTablet() ? 'bottom+=2850px center' : 
+          'bottom+=2200px center',
       scrub: true,
       animation: gsap.to('.page_stickyContainer', {
         opacity: 0,
