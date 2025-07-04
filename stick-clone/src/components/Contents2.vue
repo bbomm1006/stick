@@ -286,7 +286,7 @@ const initStickAnimation = () => {
       if (isMobile) {
         // 모바일: 전체 스크롤 진행도 기준으로 처리
         if (progress > 0.6) { // 60% 이후부터 떨어지기 시작
-          const fallProgress = Math.min(((progress - 0.6) / 0.4) * 4, 1) // 모바일에서 6배 빠르게
+          const fallProgress = Math.min(((progress - 0.6) / 0.4) * 2.5, 1) // 모바일에서 N배 빠르게
           yMove = fallProgress * window.innerHeight * 1.8
           xMove = yMove * -0.08 // y 이동량의 -10%만큼 x축으로 이동
           finalRotation = 0
@@ -434,7 +434,7 @@ const initAnimations = async () => {
       start: "top top",
       end: "+=250%",
       anticipatePin: 1,
-      pinSpacing: true,
+      pinSpacing: isDesktop, // 모바일에서는 pinSpacing false로 설정
       refreshPriority: 1
     }
   })
@@ -457,22 +457,22 @@ const initAnimations = async () => {
       })
       .to({}, { duration: 0.2 })
   } else {
-    // 모바일: 세로 스크롤
-    tl.to({}, { duration: 0.3 })
+    // 모바일: 세로 스크롤 - 각 섹션에서 더 오래 머물기, 부드러운 전환
+    tl.to({}, { duration: 0.15 })  // 시작 여백 더 감소
       .to(horizontalItems.value, {
         yPercent: -33.33,
-        ease: "power2.inOut",
-        duration: 0.4,
+        ease: "power1.inOut",  // 더 부드러운 easing
+        duration: 0.6,  // 이동 시간 더 감소
         force3D: true
       })
-      .to({}, { duration: 0.3 })
+      .to({}, { duration: 1 })  // 첫 번째 섹션 머무는 시간 더 증가
       .to(horizontalItems.value, {
         yPercent: -66.66,
-        ease: "power2.inOut",
-        duration: 0.4,
+        ease: "power1.inOut",  // 더 부드러운 easing
+        duration: 0.6,  // 이동 시간 더 감소
         force3D: true
       })
-      .to({}, { duration: 0.2 })
+      .to({}, { duration: 1 })  // 두 번째 섹션 머무는 시간 더 증가
   }
 
   scrollTriggerInstance = tl.scrollTrigger
@@ -582,9 +582,9 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(parallaxTrigger)
     })
   } else {
-    // 모바일: 최적화된 단순한 위치 변화
+    // 모바일: 각 섹션 머무는 시간 증가에 맞춰 타이밍 조정
     
-    // 첫 번째 섹션
+    // 첫 번째 섹션 - 더 오래 머물기
     if (firstSectionEmojis.length > 0) {
       gsap.set(firstSectionEmojis, { 
         y: 50,
@@ -594,12 +594,21 @@ const initAnimations = async () => {
       const firstTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
         start: "top top",
-        end: "+=100%",
+        end: "+=250%",
         scrub: 1,
         refreshPriority: 0,
         onUpdate: (self) => {
           const progress = self.progress
-          const yPos = 50 - (progress * 50)
+          let yPos = 50
+          
+          if (progress <= 0.25) {
+            // 첫 번째 섹션 활성화 구간 (더 오래 머물기)
+            const localProgress = progress / 0.25
+            yPos = 50 - (localProgress * 50)
+          } else {
+            yPos = 0
+          }
+          
           gsap.set(firstSectionEmojis, { 
             y: yPos,
             force3D: true
@@ -609,7 +618,7 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(firstTrigger)
     }
 
-    // 두 번째 섹션
+    // 두 번째 섹션 - 더 오래 머물기
     if (secondSectionEmojis.length > 0) {
       gsap.set(secondSectionEmojis, { 
         y: 50,
@@ -626,10 +635,11 @@ const initAnimations = async () => {
           const progress = self.progress
           let yPos = 50
           
-          if (progress >= 0.3 && progress <= 0.7) {
-            const localProgress = (progress - 0.3) / 0.4
+          if (progress >= 0.2 && progress <= 0.65) {
+            // 두 번째 섹션 등장 및 활성화 구간 (더 오래 머물기)
+            const localProgress = (progress - 0.2) / 0.45
             yPos = 50 - (localProgress * 50)
-          } else if (progress > 0.7) {
+          } else if (progress > 0.65) {
             yPos = 0
           }
           
@@ -642,7 +652,7 @@ const initAnimations = async () => {
       emojiScrollTriggers.push(secondTrigger)
     }
 
-    // 세 번째 섹션
+    // 세 번째 섹션 - 더 오래 머물기
     if (thirdSectionEmojis.length > 0) {
       gsap.set(thirdSectionEmojis, { 
         y: 50,
@@ -652,37 +662,40 @@ const initAnimations = async () => {
       const thirdTrigger = ScrollTrigger.create({
         trigger: horizontalScroll.value,
         start: "top top",
-        end: "+=400%",
+        end: "+=250%",
         scrub: 1,
         refreshPriority: 0,
         onUpdate: (self) => {
           const progress = self.progress
+          let yPos = 50
           
           if (progress >= 0.5) {
-            const localProgress = Math.min((progress - 0.5) / 0.3, 1)
-            const yPos = 50 - (localProgress * 50)
-            gsap.set(thirdSectionEmojis, { 
-              y: yPos,
-              force3D: true
-            })
+            // 세 번째 섹션 등장 구간 (더 오래 머물기)
+            const localProgress = Math.min((progress - 0.5) / 0.4, 1)
+            yPos = 50 - (localProgress * 50)
           }
+          
+          gsap.set(thirdSectionEmojis, { 
+            y: yPos,
+            force3D: true
+          })
         }
       })
       emojiScrollTriggers.push(thirdTrigger)
     }
   }
 
-  // 아래 섹션 등장 애니메이션
+  // 아래 섹션 등장 애니메이션 - 모바일에서 더 자연스러운 전환
   gsap.set([".page_ingredientDescriptions", ".page_ingredients"], {
     opacity: 0,
-    y: 100,
+    y: isDesktop ? 100 : 50, // 모바일에서 더 부드러운 시작
     force3D: true
   })
 
   const ingredientsTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: ".page_ingredientsCtn",
-      start: "top 80%",
+      start: isDesktop ? "top 80%" : "top 90%", // 모바일에서 더 늦게 시작
       toggleActions: "play none none none",
       once: true
     }
@@ -692,15 +705,15 @@ const initAnimations = async () => {
     .to(".page_ingredientDescriptions", {
       opacity: 1,
       y: 0,
-      duration: 0.8,
-      ease: "power2.out",
+      duration: isDesktop ? 0.8 : 1.2, // 모바일에서 더 길게
+      ease: "power1.out", // 더 부드러운 easing
       force3D: true
     }, 0)
     .to(".page_ingredients", {
       opacity: 1,
       y: 0,
-      duration: 0.8,
-      ease: "power2.out",
+      duration: isDesktop ? 0.8 : 1.2, // 모바일에서 더 길게
+      ease: "power1.out", // 더 부드러운 easing
       force3D: true
     }, 0.2)
 
