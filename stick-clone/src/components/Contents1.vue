@@ -239,8 +239,8 @@ onMounted(() => {
 
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: 'bottom+=500px center',
-      end: 'bottom+=1200px center',
+      start: 'bottom+=800px center',
+      end: 'bottom+=1400px center',
       scrub: 1,
       id: '3단계',
       animation: gsap.timeline()
@@ -269,8 +269,8 @@ onMounted(() => {
 
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: 'bottom+=600px center',
-      end: 'bottom+=1200px center',
+      start: 'bottom+=800px center',
+      end: 'bottom+=1400px center',
       scrub: true,
       id: '3단계-사라짐',
       animation: gsap.timeline()
@@ -298,8 +298,8 @@ onMounted(() => {
 
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: 'bottom+=950px center',
-      end: 'bottom+=1250px center',
+      start: 'bottom+=1050px center',
+      end: 'bottom+=1450px center',
       scrub: true,
       id: '4단계',
       animation: gsap.timeline()
@@ -329,8 +329,8 @@ onMounted(() => {
 
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: 'bottom+=950px center',
-      end: 'bottom+=1250px center',
+      start: 'bottom+=1050px center',
+      end: 'bottom+=1450px center',
       scrub: true,
       id: '4단계',
       animation: gsap.timeline()
@@ -352,8 +352,8 @@ onMounted(() => {
 
     ScrollTrigger.create({
       trigger: '.page_stickyItem',
-      start: 'bottom+=1250px center',
-      end: 'bottom+=1500px center',
+      start: 'bottom+=1450px center',
+      end: 'bottom+=1700px center',
       scrub: true,
       id: '5단계',
       animation: gsap.timeline()
