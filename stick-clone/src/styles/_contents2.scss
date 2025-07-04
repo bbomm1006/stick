@@ -13,6 +13,10 @@
         height: 340vh;
         height: 340dvh;
     }
+    @media screen and (max-width: 700px) {
+        // height: 380vh;
+        height: 380dvh;
+    }
 }
 .page_horizontalSticky {
     position: -webkit-sticky;
